@@ -1,8 +1,7 @@
 package ru.urfu;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.stream.Collectors;
+
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -12,19 +11,12 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 public class MessageStorage {
-    private static final List<String> _messages = new ArrayList<>();
-
-    static {
-        _messages.add("Моё первое сообщение");
-        _messages.add("Здесь будет новое сообщение");
-    }
-
     @RequestMapping("/messages")
     String renderAllMessages() {
-        String messages = _messages
-            .stream()
-            .map(msg -> "<li>" + msg+ "</li>")
-            .collect(Collectors.joining());
+        MessageManager messageManager = new LocalMessageManager();
+        String messages = messageManager.getAll().stream()
+                .map(msg -> "<li>" + msg.getContent() + "</li>")
+                .collect(Collectors.joining());
 
         return
             "<html>" +
