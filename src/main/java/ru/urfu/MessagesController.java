@@ -26,21 +26,6 @@ public class MessagesController {
         return new ModelAndView("messages", "messagesList", messages);
     }
 
-    private List<String> getList() {
-
-        List<String> list = new ArrayList<>();
-        list.add("List A");
-        list.add("List B");
-        list.add("List C");
-        list.add("List D");
-        list.add("List 1");
-        list.add("List 2");
-        list.add("List 3");
-
-        return list;
-
-    }
-
     @RequestMapping(value = "/addMessage", method = POST)
     public void addMessage(@RequestParam(value = "content") String content) {
         MessageManager messageManager = new LocalMessageManager();
