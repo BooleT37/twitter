@@ -1,4 +1,6 @@
-package ru.urfu;
+package ru.urfu.message;
+
+import ru.urfu.message.exceptions.WrongIdException;
 
 import java.util.List;
 import java.util.ArrayList;
@@ -8,7 +10,7 @@ public class LocalMessageManager implements MessageManager {
     private static List<Message> _messages;
     private Long _lastId;
 
-    LocalMessageManager() {
+    public LocalMessageManager() {
         _messages = new ArrayList<>();
         _messages.add(new Message(1, "Моё первое сообщение"));
         _messages.add(new Message(2, "Здесь будет новое сообщение :)"));

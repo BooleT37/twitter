@@ -1,4 +1,6 @@
-package ru.urfu;
+package ru.urfu.message;
+
+import ru.urfu.message.exceptions.WrongIdException;
 
 import java.util.List;
 

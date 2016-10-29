@@ -1,6 +1,6 @@
-package ru.urfu;
+package ru.urfu.message;
 
-class Message {
+public class Message {
     private final long id;
     private String content;
 
@@ -13,7 +13,7 @@ class Message {
         return this.id;
     }
 
-    String getContent() {
+    public String getContent() {
         return this.content;
     }
 }
