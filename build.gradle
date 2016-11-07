@@ -18,8 +18,8 @@ jar {
 	baseName = 'twitter'
 	version = '0.0.1-SNAPSHOT'
 }
-sourceCompatibility = 1.8
-targetCompatibility = 1.8
+//sourceCompatibility = 1.8
+//targetCompatibility = 1.8
 
 repositories {
 	mavenCentral()
@@ -31,11 +31,4 @@ dependencies {
 	testCompile group: 'org.mockito', name: 'mockito-core', version: 'RELEASE'
 
 	testCompile('org.springframework.boot:spring-boot-starter-test')
-}
-
-eclipse {
-	classpath {
-		 containers.remove('org.eclipse.jdt.launching.JRE_CONTAINER')
-		 containers 'org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8'
-	}
 }
