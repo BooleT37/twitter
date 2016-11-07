@@ -6,7 +6,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.ModelAndView;
 import ru.urfu.models.Message;
 import ru.urfu.storage.TemporalStorage;
 import ru.urfu.storageManager.IStorageManager;
@@ -16,6 +15,7 @@ import ru.urfu.storageManager.exceptions.StorageManagerException;
 import javax.servlet.http.HttpServletResponse;
 
 import static org.springframework.web.bind.annotation.RequestMethod.POST;
+import static org.springframework.web.bind.annotation.RequestMethod.GET;
 
 /**
  * @author aarkaev
@@ -28,7 +28,7 @@ public class MessagesRestController {
     private final IStorageManager storageManager = new TemporalStorageManager(storage);
 
 
-    @RequestMapping("/getAllMessages")
+    @RequestMapping(value = "/getAllMessages", method = GET)
     public Map<Long, Message> getAllMessages() {
         return storageManager.getAllMessages();
         //return new ModelAndView("messages", "messages", messages);
