@@ -19,8 +19,7 @@ public class MessagesController {
 
     @RequestMapping("/messages")
     public ModelAndView messages() {
-        RestTemplate restTemplate = new RestTemplate();
-        Map<Long, Message> messages = restTemplate.getForObject("http://localhost:8080/getAllMessages", Map.class);
+        Map<Long, Message> messages = storageManager.getAllMessages();
         return new ModelAndView("messages", "messages", messages);
     }
 }
