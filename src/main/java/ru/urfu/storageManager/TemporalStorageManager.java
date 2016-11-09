@@ -5,23 +5,24 @@ import ru.urfu.storage.TemporalStorage;
 import ru.urfu.storageManager.exceptions.StorageManagerException;
 import ru.urfu.storageManager.exceptions.WrongIdException;
 
+import javax.inject.Inject;
+import javax.inject.Named;
 import java.util.Comparator;
-import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+@Named
+public class TemporalStorageManager implements StorageManager {
 
-public class TemporalStorageManager implements IStorageManager {
-    private final TemporalStorage storage;
-
-    public TemporalStorageManager(TemporalStorage storage) {
-        this.storage = storage;
-    }
+    @Inject
+    private TemporalStorage storage;
 
     public Message getMessageById(Long id) throws WrongIdException {
         Message message = storage.getMessageById(id);
         if (message == null)
             throw new WrongIdException(id);
+        System.out.println(storage.getClass());
+        System.out.printf("{id: %d, content: \"%s\"}", id, message.getContent());
         return message;
     }
 

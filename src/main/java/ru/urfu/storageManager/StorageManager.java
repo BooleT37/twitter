@@ -6,7 +6,7 @@ import ru.urfu.storageManager.exceptions.WrongIdException;
 
 import java.util.Map;
 
-public interface IStorageManager {
+public interface StorageManager {
     Message getMessageById(Long id) throws WrongIdException;
 
     Map<Long, Message> getAllMessages();

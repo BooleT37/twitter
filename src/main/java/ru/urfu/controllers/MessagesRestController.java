@@ -3,15 +3,16 @@ package ru.urfu.controllers;
 import java.util.Map;
 
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 import ru.urfu.models.Message;
 import ru.urfu.storage.TemporalStorage;
-import ru.urfu.storageManager.IStorageManager;
+import ru.urfu.storageManager.StorageManager;
 import ru.urfu.storageManager.TemporalStorageManager;
 import ru.urfu.storageManager.exceptions.StorageManagerException;
+import ru.urfu.storageManager.exceptions.WrongIdException;
 
+import javax.inject.Inject;
 import javax.servlet.http.HttpServletResponse;
 
 import static org.springframework.web.bind.annotation.RequestMethod.POST;
@@ -24,23 +25,32 @@ import static org.springframework.web.bind.annotation.RequestMethod.GET;
 @RestController
 public class MessagesRestController {
 
-    private final TemporalStorage storage = TemporalStorage.getInstance();
-    private final IStorageManager storageManager = new TemporalStorageManager(storage);
-
+    @Inject
+    private StorageManager storageManager;
 
     @RequestMapping(value = "/getAllMessages", method = GET)
     public Map<Long, Message> getAllMessages() {
         return storageManager.getAllMessages();
-        //return new ModelAndView("messages", "messages", messages);
+    }
+
+    @RequestMapping(value = "/getMessage", method = GET)
+    public ResponseEntity<Message> getMessage(@RequestParam("id") Long id) {
+        try {
+            return ResponseEntity.ok(storageManager.getMessageById(id));
+        } catch (WrongIdException e) {
+            System.out.printf("Trying to get message with id '%d', but no message with such id has been found\n", id);
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
     }
 
     @RequestMapping(value = "/addMessage", method = POST)
-    public void addMessage(@RequestParam(value = "content") String content, HttpServletResponse response) {
+    public ResponseEntity addMessage(@RequestBody String content) {
         try {
             storageManager.addMessageWithUniqId(new Message(content));
+            return ResponseEntity.ok().build();
         } catch (StorageManagerException e) {
-            response.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.value());
             e.printStackTrace();
+            return ResponseEntity.badRequest().build();
         }
     }
 }

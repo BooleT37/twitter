@@ -2,15 +2,14 @@ package ru.urfu.storage;
 
 import ru.urfu.models.Message;
 
+import javax.inject.Named;
 import java.util.Map;
 import java.util.TreeMap;
 
+@Named
 public class TemporalStorage {
-    private static final TemporalStorage instance = new TemporalStorage();
 
-    public static TemporalStorage getInstance() { return instance; }
-
-    private static Map<Long, Message> messages;
+    private Map<Long, Message> messages;
 
     private TemporalStorage() {
         messages = new TreeMap<>();

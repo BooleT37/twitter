@@ -4,10 +4,17 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 import ru.urfu.models.Message;
 import ru.urfu.storage.TemporalStorage;
 import ru.urfu.storageManager.exceptions.WrongIdException;
 
+import javax.inject.Inject;
+import javax.inject.Named;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Target;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -16,29 +23,41 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 public class TemporalStorageManagerTests {
-    private final String[] contents = new String[] {"Первое сообщение", "Второе сообщение", "Третье сообщение", "Четвертое сообщение"};
+    private final String[] contents = new String[] {
+            "Первое тест сообщение",
+            "Второе тест сообщение",
+            "Третье тест сообщение",
+            "Четвертое тест сообщение"
+    };
 
-    private TemporalStorageManager manager;
+    @Mock(name="storage") private TemporalStorage storage;
+
+    @InjectMocks private TemporalStorageManager manager; //inject storage into storageManager
 
     @Rule
     public final ExpectedException exception = ExpectedException.none();
 
     @Before
     public void setUp() throws Exception {
-        TemporalStorage storage = mock(TemporalStorage.class);
+        MockitoAnnotations.initMocks(this);
 
+        //used in this.getAllMessages
         Map<Long, Message> messages = new HashMap<Long, Message>() {};
         messages.put(1L, new Message(contents[0]));
         messages.put(2L, new Message(contents[1]));
         messages.put(4L, new Message(contents[2]));
         messages.put(15L, new Message(contents[3]));
         when(storage.getMessages()).thenReturn(messages);
-        when(storage.getMessageById(1L)).thenReturn(new Message(contents[0]));
-        when(storage.getMessageById(2L)).thenReturn(new Message(contents[1]));
-        when(storage.getMessageById(3L)).thenReturn(null);
-        when(storage.deleteMessageById(1L)).thenReturn(new Message(contents[0]));
 
-        manager = new TemporalStorageManager(storage);
+        //used in this.addMessage
+        when(storage.getMessageById(2L)).thenReturn(new Message(contents[1]));
+
+        //used in this.getMessageById
+        when(storage.getMessageById(1L)).thenReturn(new Message(contents[0]));
+        when(storage.getMessageById(3L)).thenReturn(null);
+
+        //used in this.deleteMessageById
+        when(storage.deleteMessageById(1L)).thenReturn(new Message(contents[0]));
     }
 
     @Test
