@@ -11,15 +11,11 @@ import ru.urfu.models.Message;
 import ru.urfu.storage.TemporalStorage;
 import ru.urfu.storageManager.exceptions.WrongIdException;
 
-import javax.inject.Inject;
-import javax.inject.Named;
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Target;
 import java.util.HashMap;
 import java.util.Map;
 
-import static org.junit.Assert.*;
-import static org.mockito.Mockito.mock;
+import static org.junit.Assert.assertArrayEquals;
+import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.when;
 
 public class TemporalStorageManagerTests {
