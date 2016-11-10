@@ -35,6 +35,7 @@ public class TemporalStorageManagerTests {
 
     @Before
     public void setUp() throws Exception {
+        System.out.println("Running tests...");
         MockitoAnnotations.initMocks(this);
 
         //used in this.getAllMessages
