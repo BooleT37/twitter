@@ -18,7 +18,7 @@ import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.when;
 
-public class TemporalStorageManagerTests {
+public class TemporalStorageManagerTest {
     private final String[] contents = new String[] {
             "Первое тест сообщение",
             "Второе тест сообщение",
