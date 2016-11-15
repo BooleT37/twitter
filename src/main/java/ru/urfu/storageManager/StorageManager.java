@@ -13,8 +13,6 @@ public interface StorageManager {
 
     Long createUniqIdForMessage() throws StorageManagerException;
 
-    void addMessage(Long id, Message message) throws WrongIdException;
-
     void addMessageWithUniqId(Message message) throws StorageManagerException;
 
     Message deleteMessageById(Long id) throws WrongIdException;

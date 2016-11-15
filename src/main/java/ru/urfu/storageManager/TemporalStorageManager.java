@@ -37,7 +37,7 @@ public class TemporalStorageManager implements StorageManager {
         throw new StorageManagerException("Cannot create uniq id for messages");
     }
 
-    public void addMessage(Long id, Message message) throws WrongIdException {
+    private void addMessage(Long id, Message message) throws WrongIdException {
         Message messageWithTheSameId = storage.getMessageById(id);
         if (messageWithTheSameId != null)
             throw new WrongIdException(String.format("Message with this id already exists: %d", id));

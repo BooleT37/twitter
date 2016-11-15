@@ -10,11 +10,14 @@ import java.util.TreeMap;
 public class TemporalStorage {
 
     private Map<Long, Message> messages;
+    private Long lastMessageId;
 
     private TemporalStorage() {
         messages = new TreeMap<>();
         messages.put(1L, new Message("Моё первое сообщение"));
         messages.put(2L, new Message("Здесь будет новое сообщение :)"));
+
+		lastMessageId = 2L;
     }
 
     public Map<Long, Message> getMessages() {
@@ -25,7 +28,12 @@ public class TemporalStorage {
 
     public void addMessage(Long id, Message message ) {
         messages.put(id, message);
+		lastMessageId = id;
     }
 
     public Message deleteMessageById(Long id) { return messages.remove(id); }
+
+    public Long getLastMessageId() {
+        return lastMessageId;
+    }
 }
