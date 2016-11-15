@@ -11,6 +11,7 @@ public class TwitterApplicationTest {
 
 	@Test
 	public void contextLoads() {
+
 	}
 
 }

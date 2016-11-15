@@ -6,12 +6,16 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import ru.urfu.models.Message;
 import ru.urfu.storageManager.StorageManager;
 
+import javax.inject.Inject;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -22,6 +26,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 
 @RunWith(SpringRunner.class)
+@SpringBootTest
+@AutoConfigureMockMvc
 public class MessagesControllerTest {
 	@Mock
 	private StorageManager storageManager;
@@ -29,12 +35,12 @@ public class MessagesControllerTest {
 	@InjectMocks
 	private MessagesRestController messagesRestController;
 
+	@Inject
 	private MockMvc mockMvc;
 
 	@Before
 	public void setUp() throws Exception {
 		MockitoAnnotations.initMocks(this);
-		mockMvc = MockMvcBuilders.standaloneSetup(messagesRestController).build();
 
 		Map<Long, Message> messages = new HashMap<Long, Message>() {};
 		messages.put(1L, new Message("Первое тест сообщение"));
@@ -46,7 +52,7 @@ public class MessagesControllerTest {
 	public void messages() throws Exception {
 		mockMvc.perform(get("/messages"))
 				.andExpect(status().isOk())
-				.andExpect(content().contentType("text/html"));
+				.andExpect(content().contentType("text/html; charset=utf-8"));
 	}
 
 
