@@ -30,14 +30,13 @@ public class MessagesRestControllerTest {
             "Четвертое тест сообщение"
     };
 
-    @Mock(name="storageManager") private StorageManager storageManager;
+    @Mock private StorageManager storageManager;
     @InjectMocks private MessagesRestController controller;
 
     @Before
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
 
-        controller = new MessagesRestController();
         Map<Long, Message> messages = new HashMap<Long, Message>() {};
         messages.put(1L, new Message(contents[0]));
         messages.put(2L, new Message(contents[1]));
