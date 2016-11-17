@@ -1,4 +1,4 @@
-package ru.urfu.storageManager.exceptions;
+package ru.urfu.storage.exceptions;
 
 public class WrongIdException extends StorageManagerException {
     public WrongIdException(String message) {

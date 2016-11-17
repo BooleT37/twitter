@@ -1,11 +1,10 @@
 package ru.urfu.controllers;
 
-import com.sun.deploy.net.HttpResponse;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 import ru.urfu.models.Message;
-import ru.urfu.storageManager.StorageManager;
+import ru.urfu.storage.Storage;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletResponse;
@@ -15,11 +14,11 @@ import java.util.Map;
 public class MessagesController {
 
     @Inject
-    private StorageManager storageManager;
+    private Storage storage;
 
     @RequestMapping("/messages")
     public ModelAndView messages(HttpServletResponse response) {
-        Map<Long, Message> messages = storageManager.getAllMessages();
+        Map<Long, Message> messages = storage.getAllMessages();
         response.addHeader("Content-Type", "text/html; charset=utf-8");
         return new ModelAndView("messages", "messages", messages);
     }

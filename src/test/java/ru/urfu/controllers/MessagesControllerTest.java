@@ -11,7 +11,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import ru.urfu.models.Message;
-import ru.urfu.storageManager.StorageManager;
+import ru.urfu.storage.Storage;
 
 import javax.inject.Inject;
 import java.util.HashMap;
@@ -28,7 +28,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 public class MessagesControllerTest {
 	@Mock
-	private StorageManager storageManager;
+	private Storage storage;
 
 	@InjectMocks
 	private MessagesRestController messagesRestController;
@@ -43,7 +43,7 @@ public class MessagesControllerTest {
 		Map<Long, Message> messages = new HashMap<Long, Message>() {};
 		messages.put(1L, new Message("Первое тест сообщение"));
 		messages.put(2L, new Message("Второе тест сообщение"));
-		when(storageManager.getAllMessages()).thenReturn(messages);
+		when(storage.getAllMessages()).thenReturn(messages);
 	}
 
 	@Test
