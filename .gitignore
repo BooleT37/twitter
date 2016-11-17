@@ -1,4 +1,6 @@
 .idea
 .gradle
 build
-classes
+src/main/webapp/WEB-INF/inf/
+src/test/java/ru/urfu/utils/
+twitter.log

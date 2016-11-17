@@ -12,10 +12,6 @@ import ru.urfu.storageManager.exceptions.StorageManagerException;
 import ru.urfu.storageManager.exceptions.WrongIdException;
 
 import javax.inject.Inject;
-import javax.servlet.RequestDispatcher;
-import javax.servlet.ServletContext;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.util.Map;
 
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
@@ -32,12 +28,12 @@ public class MessagesRestController {
     private StorageManager storageManager;
 
     @RequestMapping(value = "/getAllMessages", method = GET)
-    public Map<Long, Message> getAllMessages() {
+	Map<Long, Message> getAllMessages() {
         return storageManager.getAllMessages();
     }
 
     @RequestMapping(value = "/getMessage", method = GET)
-    public ResponseEntity<Message> getMessage(@RequestParam("id") Long id) {
+	ResponseEntity<Message> getMessage(@RequestParam("id") Long id) {
         try {
             return ResponseEntity.ok(storageManager.getMessageById(id));
         } catch (WrongIdException e) {
@@ -47,7 +43,7 @@ public class MessagesRestController {
     }
 
     @RequestMapping(value = "/addMessage", method = POST)
-    public ResponseEntity addMessage(@RequestBody String content) {
+	ResponseEntity addMessage(@RequestBody String content) {
         try {
             storageManager.addMessageWithUniqId(new Message(content));
             return ResponseEntity.ok().build();
