@@ -1,4 +1,4 @@
-package ru.urfu.models;
+package ru.urfu.controllers.rest.models;
 
 import org.springframework.http.HttpStatus;
 

@@ -1,4 +1,4 @@
-package ru.urfu.models;
+package ru.urfu.controllers.rest.models;
 
 public class ApiSuccess {
 	private final String message;

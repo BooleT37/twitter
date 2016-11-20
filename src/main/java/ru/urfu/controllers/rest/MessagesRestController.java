@@ -1,4 +1,4 @@
-package ru.urfu.controllers;
+package ru.urfu.controllers.rest;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -7,8 +7,8 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import ru.urfu.models.ApiError;
-import ru.urfu.models.ApiSuccess;
+import ru.urfu.controllers.rest.models.ApiError;
+import ru.urfu.controllers.rest.models.ApiSuccess;
 import ru.urfu.models.Message;
 import ru.urfu.storage.Storage;
 import ru.urfu.storage.exceptions.MessageNotFound;

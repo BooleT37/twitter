@@ -1,4 +1,4 @@
-package ru.urfu.controllers;
+package ru.urfu.controllers.rest;
 
 import org.junit.Before;
 import org.junit.Rule;
