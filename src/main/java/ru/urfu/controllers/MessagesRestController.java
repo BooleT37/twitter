@@ -1,23 +1,18 @@
 package ru.urfu.controllers;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-import ru.urfu.logging.LoggingHelper;
+import org.springframework.web.bind.annotation.*;
+import ru.urfu.models.ApiError;
 import ru.urfu.models.Message;
 import ru.urfu.storage.Storage;
-import ru.urfu.storage.exceptions.WrongIdException;
+import ru.urfu.storage.exceptions.MessageNotFound;
 
 import javax.inject.Inject;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import java.util.HashMap;
 import java.util.Map;
-
-import static org.springframework.web.bind.annotation.RequestMethod.GET;
-import static org.springframework.web.bind.annotation.RequestMethod.POST;
 
 /**
  * @author aarkaev
@@ -26,31 +21,33 @@ import static org.springframework.web.bind.annotation.RequestMethod.POST;
 @RestController
 public class MessagesRestController {
 
+	private final Log logger = LogFactory.getLog(getClass());
+
     @Inject
     private Storage storage;
 
-    @Inject
-    LoggingHelper loggingHelper;
-
-    @RequestMapping(value = "/getAllMessages", method = GET)
+    @GetMapping("/getAllMessages")
 	Map<Long, Message> getAllMessages() {
         return storage.getAllMessages();
     }
 
-    @RequestMapping(value = "/getMessage", method = GET)
-	ResponseEntity<Message> getMessage(@RequestParam("id") Long id) {
-        try {
-            return ResponseEntity.ok(storage.getMessageById(id));
-        } catch (WrongIdException e) {
-            System.out.printf("Trying to get message with id '%d', but no message with such id has been found\n", id);
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
+    @GetMapping("/getMessage")
+	ResponseEntity<Message> getMessage(@RequestParam("id") Long id) throws MessageNotFound {
+		return ResponseEntity.ok(storage.getMessageById(id));
     }
 
-    @RequestMapping(value = "/addMessage", method = POST)
-	ResponseEntity addMessage(HttpServletRequest request) {
-		String content = request.getParameter("content");
-        storage.addMessageWithUniqId(new Message(content));
-        return ResponseEntity.ok().build();
+    @PostMapping("/addMessage")
+	ResponseEntity addMessage(@RequestBody Message message) {
+        long id = storage.addMessageWithUniqId(message);
+        HashMap<String, Object> body = new HashMap<>();
+        body.put("id", id);
+        return ResponseEntity.ok(body);
     }
+
+	@ExceptionHandler(MessageNotFound.class)
+	public ResponseEntity<ApiError> handleMessageNotFound(MessageNotFound ex) {
+		ApiError bodyOfResponse = new ApiError(HttpStatus.NOT_FOUND, ex.getLocalizedMessage());
+		logger.warn(ex.getLocalizedMessage());
+		return new ResponseEntity<>(bodyOfResponse, HttpStatus.NOT_FOUND);
+	}
 }

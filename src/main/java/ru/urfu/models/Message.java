@@ -1,9 +1,13 @@
 package ru.urfu.models;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class Message {
     private final String content;
 
-    public Message(String content) {
+	@JsonCreator
+    public Message(@JsonProperty("content") String content) {
         this.content = content;
     }
 

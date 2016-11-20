@@ -6,7 +6,8 @@ import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import org.mockito.MockitoAnnotations;
 import ru.urfu.models.Message;
-import ru.urfu.storage.exceptions.WrongIdException;
+import ru.urfu.storage.exceptions.MessageAlreadyExists;
+import ru.urfu.storage.exceptions.MessageNotFound;
 
 import java.util.TreeMap;
 
@@ -45,8 +46,8 @@ public class TemporalStorageTest {
     @Test
     public void getMessageById() throws Exception {
         assertEquals(contents[0], storage.getMessageById(1L).getContent());
-        exception.expect(WrongIdException.class);
-        exception.expectMessage("No messages with such id: 3");
+        exception.expect(MessageNotFound.class);
+        exception.expectMessage("No message with such id: 3");
         storage.getMessageById(3L);
     }
 
@@ -62,7 +63,8 @@ public class TemporalStorageTest {
 
 	@Test
     public void addMessageWithUniqId() throws Exception {
-        storage.addMessageWithUniqId(new Message("Новое сообщение"));
+        Long id = storage.addMessageWithUniqId(new Message("Новое сообщение"));
+        assertEquals(16L, (long) id);
     }
 
     @Test
@@ -71,8 +73,8 @@ public class TemporalStorageTest {
 		storage.addMessage(5L, message);
 
 		Message newMessage = new Message("Ещё сообщение");
-		exception.expect(WrongIdException.class);
-		exception.expectMessage("Message with this id already exists: 2");
+		exception.expect(MessageAlreadyExists.class);
+		exception.expectMessage(String.format("Message with id '%d' already exists", 2L));
 		storage.addMessage(2L, newMessage);
 	}
 
@@ -80,8 +82,8 @@ public class TemporalStorageTest {
     public void deleteMessageById() throws Exception {
         storage.deleteMessageById(1L);
 
-        exception.expect(WrongIdException.class);
-        exception.expectMessage("No messages with such id: 3");
+        exception.expect(MessageNotFound.class);
+        exception.expectMessage("No message with such id: 3");
         storage.deleteMessageById(3L);
     }
 

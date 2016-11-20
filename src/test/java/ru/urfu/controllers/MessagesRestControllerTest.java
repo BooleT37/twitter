@@ -1,7 +1,9 @@
 package ru.urfu.controllers;
 
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
@@ -9,13 +11,13 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import ru.urfu.models.Message;
 import ru.urfu.storage.Storage;
-import ru.urfu.storage.exceptions.WrongIdException;
+import ru.urfu.storage.exceptions.MessageNotFound;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.Map;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertArrayEquals;
+import static org.junit.Assert.assertEquals;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.*;
 
@@ -31,6 +33,9 @@ public class MessagesRestControllerTest {
     @Mock private Storage storage;
     @InjectMocks private MessagesRestController controller;
 
+    @Rule
+    public final ExpectedException exception = ExpectedException.none();
+
     @Before
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
@@ -43,7 +48,7 @@ public class MessagesRestControllerTest {
         when(storage.getAllMessages()).thenReturn(messages);
 
         when(storage.getMessageById(1L)).thenReturn(new Message(contents[0]));
-        when(storage.getMessageById(3L)).thenThrow(new WrongIdException(3L));
+        when(storage.getMessageById(3L)).thenThrow(new MessageNotFound(3L));
     }
 
     @Test
@@ -57,15 +62,16 @@ public class MessagesRestControllerTest {
         assertEquals(contents[0], response1.getBody().getContent());
         assertEquals(HttpStatus.OK, response1.getStatusCode());
 
+		exception.expect(MessageNotFound.class);
+		exception.expectMessage(String.format("No message with such id: %d", 3L));
 		ResponseEntity<Message> response2 = controller.getMessage(3L);
-		assertEquals(HttpStatus.BAD_REQUEST, response2.getStatusCode());
+		assertEquals(HttpStatus.NOT_FOUND, response2.getStatusCode());
     }
 
     @Test
     public void addMessage() throws Exception {
-        HttpServletRequest requestMock = mock(HttpServletRequest.class);
-        when(requestMock.getParameter("content")).thenReturn("Ещё одно сообщение");
-		controller.addMessage(requestMock);
+    	Message message = new Message("Ещё одно сообщение");
+		controller.addMessage(message);
 		verify(storage, atLeastOnce()).addMessageWithUniqId(any(Message.class));
     }
 

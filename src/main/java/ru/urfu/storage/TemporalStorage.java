@@ -1,7 +1,8 @@
 package ru.urfu.storage;
 
 import ru.urfu.models.Message;
-import ru.urfu.storage.exceptions.WrongIdException;
+import ru.urfu.storage.exceptions.MessageAlreadyExists;
+import ru.urfu.storage.exceptions.MessageNotFound;
 
 import javax.annotation.PostConstruct;
 import javax.inject.Named;
@@ -27,10 +28,10 @@ public class TemporalStorage implements Storage {
 	}
 
 	@Override
-    public Message getMessageById(Long id) throws WrongIdException {
+    public Message getMessageById(Long id) throws MessageNotFound {
         Message message = messages.get(id);
         if (message == null)
-            throw new WrongIdException(id);
+            throw new MessageNotFound(id);
         return message;
     }
 
@@ -50,24 +51,25 @@ public class TemporalStorage implements Storage {
     }
 
 	@Override
-	public void addMessage(Long id, Message message) throws WrongIdException {
+	public void addMessage(Long id, Message message) throws MessageAlreadyExists {
         Message messageWithTheSameId = messages.get(id);
         if (messageWithTheSameId != null)
-            throw new WrongIdException(String.format("Message with this id already exists: %d", id));
+            throw new MessageAlreadyExists(id);
 		messages.put(id, message);
     }
 
 	@Override
-    public void addMessageWithUniqId(Message message) {
+    public Long addMessageWithUniqId(Message message) {
         Long id = this.createUniqIdForMessage();
         messages.put(id, message);
+        return id;
     }
 
 	@Override
-    public Message deleteMessageById(Long id) throws WrongIdException {
+    public Message deleteMessageById(Long id) throws MessageNotFound {
         Message deletedMessage = messages.remove(id);
         if (deletedMessage == null)
-            throw new WrongIdException(id);
+            throw new MessageNotFound(id);
         return deletedMessage;
     }
 
