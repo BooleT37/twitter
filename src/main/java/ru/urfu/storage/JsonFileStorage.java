@@ -1,6 +1,7 @@
 package ru.urfu.storage;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import ru.urfu.models.Message;
@@ -30,6 +31,7 @@ public class JsonFileStorage implements Storage {
 	@PostConstruct
 	void setUp() {
 		mapper = new ObjectMapper();
+		mapper.enable(SerializationFeature.INDENT_OUTPUT);
 
 		Path path = Paths.get(storageFilename);
 		if (!Files.exists(path)) {
