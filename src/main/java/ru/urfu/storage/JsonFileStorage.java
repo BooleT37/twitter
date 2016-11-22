@@ -193,7 +193,7 @@ public class JsonFileStorage implements Storage {
 	private TreeMap<Long, Message> readFromStorage() throws IOException {
 		HashMap<String, Object> stringMap = (HashMap<String, Object>) mapper.readValue(new File(storageFilename), HashMap.class);
 		TreeMap<Long, Message> messages = new TreeMap<>();
-		stringMap.forEach((id, value) -> { messages.put(Long.parseLong(id), (Message)value); });
+		stringMap.forEach((id, value) -> messages.put(Long.parseLong(id), mapper.convertValue(value, Message.class)));
 		return messages;
 	}
 }
