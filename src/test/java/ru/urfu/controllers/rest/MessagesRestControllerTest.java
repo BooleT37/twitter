@@ -13,8 +13,7 @@ import ru.urfu.models.Message;
 import ru.urfu.storage.Storage;
 import ru.urfu.storage.exceptions.MessageNotFound;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.TreeMap;
 
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
@@ -40,7 +39,7 @@ public class MessagesRestControllerTest {
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
 
-        Map<Long, Message> messages = new HashMap<Long, Message>() {};
+		TreeMap<Long, Message> messages = new TreeMap<Long, Message>() {};
         messages.put(1L, new Message(contents[0]));
         messages.put(2L, new Message(contents[1]));
         messages.put(4L, new Message(contents[2]));

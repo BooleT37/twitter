@@ -6,7 +6,8 @@ import ru.urfu.storage.exceptions.MessageNotFound;
 
 import javax.annotation.PostConstruct;
 import javax.inject.Named;
-import java.util.*;
+import java.util.NoSuchElementException;
+import java.util.TreeMap;
 
 @Named
 public class TemporalStorage implements Storage {
@@ -36,7 +37,7 @@ public class TemporalStorage implements Storage {
     }
 
 	@Override
-    public Map<Long, Message> getAllMessages() {
+    public TreeMap<Long, Message> getAllMessages() {
         return messages;
     }
 

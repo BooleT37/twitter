@@ -7,13 +7,14 @@ import ru.urfu.models.Message;
 import ru.urfu.storage.Storage;
 
 import javax.inject.Inject;
+import javax.inject.Named;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Map;
 
 @Controller
 public class MessagesController {
 
-    @Inject
+    @Inject @Named("jsonFileStorage")
     private Storage storage;
 
     @RequestMapping("/messages")

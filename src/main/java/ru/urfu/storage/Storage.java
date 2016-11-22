@@ -4,12 +4,12 @@ import ru.urfu.models.Message;
 import ru.urfu.storage.exceptions.MessageAlreadyExists;
 import ru.urfu.storage.exceptions.MessageNotFound;
 
-import java.util.Map;
+import java.util.TreeMap;
 
 public interface Storage {
     Message getMessageById(Long id) throws MessageNotFound;
 
-    Map<Long, Message> getAllMessages();
+    TreeMap<Long, Message> getAllMessages();
 
     Long createUniqIdForMessage();
 

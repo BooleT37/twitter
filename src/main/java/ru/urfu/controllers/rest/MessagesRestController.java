@@ -14,6 +14,7 @@ import ru.urfu.storage.Storage;
 import ru.urfu.storage.exceptions.MessageNotFound;
 
 import javax.inject.Inject;
+import javax.inject.Named;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -26,7 +27,7 @@ public class MessagesRestController {
 
 	private final Log logger = LogFactory.getLog(getClass());
 
-    @Inject
+    @Inject @Named("jsonFileStorage")
     private Storage storage;
 
     @GetMapping("/getAllMessages")

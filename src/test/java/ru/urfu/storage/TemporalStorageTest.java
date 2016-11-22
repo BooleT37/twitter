@@ -4,7 +4,6 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
-import org.mockito.MockitoAnnotations;
 import ru.urfu.models.Message;
 import ru.urfu.storage.exceptions.MessageAlreadyExists;
 import ru.urfu.storage.exceptions.MessageNotFound;
@@ -29,9 +28,6 @@ public class TemporalStorageTest {
 
     @Before
     public void setUp() throws Exception {
-		MockitoAnnotations.initMocks(this);
-        //System.out.println("Running TemporalStorage tests...");
-
 		TreeMap<Long, Message> messages = new TreeMap<>();
         messages.put(1L, new Message(contents[0]));
         messages.put(2L, new Message(contents[1]));

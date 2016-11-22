@@ -3,7 +3,9 @@ package ru.urfu.models;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class Message {
+import java.io.Serializable;
+
+public class Message implements Serializable {
     private final String content;
 
 	@JsonCreator
