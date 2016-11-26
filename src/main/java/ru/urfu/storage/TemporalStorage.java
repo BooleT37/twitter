@@ -45,12 +45,12 @@ public class TemporalStorage implements Storage {
 
 	@Override
     public Long createUniqIdForMessage() {
-		if (lastMessageId == null)
-			lastMessageId = -1L;
-		if (!messages.containsKey(lastMessageId + 1))
+		if (lastMessageId == null || messages.containsKey(lastMessageId + 1)) {
+			Optional<Long> lastId = messages.keySet().stream().max(Comparator.naturalOrder());
+			lastMessageId = lastId.isPresent() ? lastId.get() : -1L;
 			return lastMessageId + 1;
-		Optional<Long> lastId = messages.keySet().stream().max(Comparator.naturalOrder());
-		return lastId.isPresent() ? lastId.get() + 1 : 0L;
+		}
+		return lastMessageId + 1;
     }
 
 	@Override
