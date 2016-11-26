@@ -42,7 +42,7 @@ public class MessagesRestController {
 
     @PostMapping("/addMessage")
 	ResponseEntity addMessage(@RequestBody Message message) {
-        long id = storage.addMessageWithUniqId(message);
+        long id = storage.addMessage(message);
         HashMap<String, Object> body = new HashMap<>();
         body.put("id", id);
         return ResponseEntity.ok(body);

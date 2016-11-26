@@ -71,7 +71,7 @@ public class MessagesRestControllerTest {
     public void addMessage() throws Exception {
     	Message message = new Message("Ещё одно сообщение");
 		controller.addMessage(message);
-		verify(storage, atLeastOnce()).addMessageWithUniqId(any(Message.class));
+		verify(storage, atLeastOnce()).addMessage(any(Message.class));
     }
 
 }

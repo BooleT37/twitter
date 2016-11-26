@@ -1,7 +1,6 @@
 package ru.urfu.storage;
 
 import ru.urfu.models.Message;
-import ru.urfu.storage.exceptions.MessageAlreadyExists;
 import ru.urfu.storage.exceptions.MessageNotFound;
 
 import java.util.TreeMap;
@@ -13,9 +12,7 @@ public interface Storage {
 
     Long createUniqIdForMessage();
 
-    Long addMessageWithUniqId(Message message);
-
-	void addMessage(Long id, Message message) throws MessageAlreadyExists;
+    Long addMessage(Message message);
 
     Message deleteMessageById(Long id) throws MessageNotFound;
 

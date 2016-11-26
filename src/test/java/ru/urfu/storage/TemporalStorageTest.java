@@ -5,7 +5,6 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import ru.urfu.models.Message;
-import ru.urfu.storage.exceptions.MessageAlreadyExists;
 import ru.urfu.storage.exceptions.MessageNotFound;
 
 import java.util.TreeMap;
@@ -57,20 +56,9 @@ public class TemporalStorageTest {
 
 	@Test
     public void addMessageWithUniqId() throws Exception {
-        Long id = storage.addMessageWithUniqId(new Message("Новое сообщение"));
+        Long id = storage.addMessage(new Message("Новое сообщение"));
         assertEquals(16L, (long) id);
     }
-
-    @Test
-	public void addMessage() throws Exception {
-		Message message = new Message("Новое сообщение");
-		storage.addMessage(5L, message);
-
-		Message newMessage = new Message("Ещё сообщение");
-		exception.expect(MessageAlreadyExists.class);
-		exception.expectMessage(String.format("Message with id '%d' already exists", 2L));
-		storage.addMessage(2L, newMessage);
-	}
 
     @Test
     public void deleteMessageById() throws Exception {

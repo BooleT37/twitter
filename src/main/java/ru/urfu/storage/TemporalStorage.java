@@ -1,7 +1,6 @@
 package ru.urfu.storage;
 
 import ru.urfu.models.Message;
-import ru.urfu.storage.exceptions.MessageAlreadyExists;
 import ru.urfu.storage.exceptions.MessageNotFound;
 
 import javax.annotation.PostConstruct;
@@ -26,10 +25,9 @@ public class TemporalStorage implements Storage {
 	@PostConstruct
 	void setUp() {
 		messages = new TreeMap<>();
-		this.addMessageWithUniqId(new Message("Моё первое сообщение"));
-		this.addMessageWithUniqId(new Message("Здесь будет новое сообщение :)"));
+		this.addMessage(new Message("Моё первое сообщение"));
+		this.addMessage(new Message("Здесь будет новое сообщение :)"));
 	}
-
 
 
 	@Override
@@ -56,15 +54,7 @@ public class TemporalStorage implements Storage {
     }
 
 	@Override
-	public void addMessage(Long id, Message message) throws MessageAlreadyExists {
-        Message messageWithTheSameId = messages.get(id);
-        if (messageWithTheSameId != null)
-            throw new MessageAlreadyExists(id);
-		messages.put(id, message);
-    }
-
-	@Override
-    public Long addMessageWithUniqId(Message message) {
+    public Long addMessage(Message message) {
         Long id = this.createUniqIdForMessage();
         messages.put(id, message);
         return id;

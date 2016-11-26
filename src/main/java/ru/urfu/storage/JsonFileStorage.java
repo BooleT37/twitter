@@ -5,7 +5,6 @@ import com.fasterxml.jackson.databind.SerializationFeature;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import ru.urfu.models.Message;
-import ru.urfu.storage.exceptions.MessageAlreadyExists;
 import ru.urfu.storage.exceptions.MessageNotFound;
 
 import javax.annotation.PostConstruct;
@@ -105,7 +104,7 @@ public class JsonFileStorage implements Storage {
 	}
 
 	@Override
-	public Long addMessageWithUniqId(Message message) {
+	public Long addMessage(Message message) {
 		TreeMap<Long, Message> messages;
 		try {
 			messages = this.readFromStorage();
@@ -126,28 +125,6 @@ public class JsonFileStorage implements Storage {
 			return null;
 		}
 		return uniqId;
-	}
-
-	@Override
-	public void addMessage(Long id, Message message) throws MessageAlreadyExists {
-		TreeMap<Long, Message> messages;
-		try {
-			messages = this.readFromStorage();
-		} catch (IOException e) {
-			logger.error(e.toString());
-			e.printStackTrace();
-			return;
-		}
-		if (messages == null)
-			messages = new TreeMap<>();
-		if (messages.containsKey(id))
-			throw new MessageAlreadyExists(id);
-		messages.put(id, message);
-		try {
-			this.writeToStorage(messages);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
 	}
 
 	@Override
