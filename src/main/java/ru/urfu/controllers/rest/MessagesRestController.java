@@ -27,7 +27,7 @@ public class MessagesRestController {
 
 	private final Log logger = LogFactory.getLog(getClass());
 
-    @Inject @Named("jsonFileStorage")
+    @Inject @Named("temporalStorage")
     private Storage storage;
 
     @GetMapping("/getAllMessages")
