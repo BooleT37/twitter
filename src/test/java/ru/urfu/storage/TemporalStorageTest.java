@@ -20,7 +20,7 @@ public class TemporalStorageTest {
             "Четвертое тест сообщение"
     };
 
-	private TemporalStorage storage;
+	private TemporalMessagesStorage storage;
 
     @Rule
     public final ExpectedException exception = ExpectedException.none();
@@ -33,7 +33,7 @@ public class TemporalStorageTest {
         messages.put(4L, new Message(3L, contents[2]));
         messages.put(15L, new Message(4L, contents[3]));
 
-        storage = new TemporalStorage(messages);
+        storage = new TemporalMessagesStorage(messages);
     }
 
     @Test

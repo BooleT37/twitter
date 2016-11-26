@@ -8,17 +8,17 @@ import javax.inject.Named;
 import java.util.*;
 
 @Named
-public class TemporalStorage implements Storage {
+public class TemporalMessagesStorage implements MessagesStorage {
 
 	private Map<Long, Message> messages;
 	private Long lastMessageId = null;
 
-	TemporalStorage() {}
+	TemporalMessagesStorage() {}
 
 	/**
 	 * For testing purposes
 	 */
-	TemporalStorage(Map<Long, Message> messages) {
+	TemporalMessagesStorage(Map<Long, Message> messages) {
 		this.messages = messages;
 	}
 

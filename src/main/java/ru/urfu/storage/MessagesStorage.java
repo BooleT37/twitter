@@ -5,7 +5,7 @@ import ru.urfu.storage.exceptions.MessageNotFound;
 
 import java.util.List;
 
-public interface Storage {
+public interface MessagesStorage {
     Message getMessageById(Long id) throws MessageNotFound;
 
     List<Message> getAllMessages();

@@ -10,7 +10,7 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import ru.urfu.models.Message;
-import ru.urfu.storage.Storage;
+import ru.urfu.storage.MessagesStorage;
 import ru.urfu.storage.exceptions.MessageNotFound;
 
 import java.util.ArrayList;
@@ -30,7 +30,7 @@ public class MessagesRestControllerTest {
             "Четвертое тест сообщение"
     };
 
-    @Mock private Storage storage;
+    @Mock private MessagesStorage messagesStorage;
     @InjectMocks private MessagesRestController controller;
 
     @Rule
@@ -45,10 +45,10 @@ public class MessagesRestControllerTest {
         messages.add(new Message(1L, contents[1]));
         messages.add(new Message(2L, contents[2]));
         messages.add(new Message(3L, contents[3]));
-        when(storage.getAllMessages()).thenReturn(messages);
+        when(messagesStorage.getAllMessages()).thenReturn(messages);
 
-        when(storage.getMessageById(1L)).thenReturn(new Message(contents[0]));
-        when(storage.getMessageById(3L)).thenThrow(new MessageNotFound(3L));
+        when(messagesStorage.getMessageById(1L)).thenReturn(new Message(contents[0]));
+        when(messagesStorage.getMessageById(3L)).thenThrow(new MessageNotFound(3L));
     }
 
     @Test
@@ -72,7 +72,7 @@ public class MessagesRestControllerTest {
     public void addMessage() throws Exception {
     	Message message = new Message("Ещё одно сообщение");
 		controller.addMessage(message);
-		verify(storage, atLeastOnce()).addMessage(any(Message.class));
+		verify(messagesStorage, atLeastOnce()).addMessage(any(Message.class));
     }
 
 }

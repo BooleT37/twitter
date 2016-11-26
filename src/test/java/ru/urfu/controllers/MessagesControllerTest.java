@@ -12,7 +12,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import ru.urfu.controllers.rest.MessagesRestController;
 import ru.urfu.models.Message;
-import ru.urfu.storage.Storage;
+import ru.urfu.storage.MessagesStorage;
 
 import javax.inject.Inject;
 import java.util.ArrayList;
@@ -29,7 +29,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 public class MessagesControllerTest {
 	@Mock
-	private Storage storage;
+	private MessagesStorage messagesStorage;
 
 	@InjectMocks
 	private MessagesRestController messagesRestController;
@@ -44,7 +44,7 @@ public class MessagesControllerTest {
 		List<Message> messages = new ArrayList<Message>() {};
 		messages.add(new Message(0L, "Первое тест сообщение"));
 		messages.add(new Message(1L, "Второе тест сообщение"));
-		when(storage.getAllMessages()).thenReturn(messages);
+		when(messagesStorage.getAllMessages()).thenReturn(messages);
 	}
 
 	@Test
