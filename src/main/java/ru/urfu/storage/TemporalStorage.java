@@ -39,12 +39,11 @@ public class TemporalStorage implements Storage {
     }
 
 	@Override
-    public Map<Long, Message> getAllMessages() {
-        return messages;
+    public List<Message> getAllMessages() {
+		return new ArrayList(messages.values());
     }
 
-	@Override
-    public Long createUniqIdForMessage() {
+    private Long createUniqIdForMessage() {
 		if (lastMessageId == null || messages.containsKey(lastMessageId + 1)) {
 			Optional<Long> lastId = messages.keySet().stream().max(Comparator.naturalOrder());
 			lastMessageId = lastId.isPresent() ? lastId.get() : -1L;
@@ -56,6 +55,7 @@ public class TemporalStorage implements Storage {
 	@Override
     public Long addMessage(Message message) {
         Long id = this.createUniqIdForMessage();
+		message.setId(id);
         messages.put(id, message);
 		lastMessageId++;
         return id;

@@ -13,7 +13,8 @@ import ru.urfu.models.Message;
 import ru.urfu.storage.Storage;
 import ru.urfu.storage.exceptions.MessageNotFound;
 
-import java.util.TreeMap;
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
@@ -39,11 +40,11 @@ public class MessagesRestControllerTest {
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
 
-		TreeMap<Long, Message> messages = new TreeMap<Long, Message>() {};
-        messages.put(1L, new Message(contents[0]));
-        messages.put(2L, new Message(contents[1]));
-        messages.put(4L, new Message(contents[2]));
-        messages.put(15L, new Message(contents[3]));
+		List<Message> messages = new ArrayList<Message>() {};
+        messages.add(new Message(0L, contents[0]));
+        messages.add(new Message(1L, contents[1]));
+        messages.add(new Message(2L, contents[2]));
+        messages.add(new Message(3L, contents[3]));
         when(storage.getAllMessages()).thenReturn(messages);
 
         when(storage.getMessageById(1L)).thenReturn(new Message(contents[0]));
@@ -52,7 +53,7 @@ public class MessagesRestControllerTest {
 
     @Test
     public void getAllMessages() throws Exception {
-        assertArrayEquals(contents, controller.getAllMessages().values().stream().map(Message::getContent).toArray());
+        assertArrayEquals(contents, controller.getAllMessages().stream().map(Message::getContent).toArray());
     }
 
     @Test

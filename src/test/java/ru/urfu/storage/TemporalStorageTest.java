@@ -7,7 +7,7 @@ import org.junit.rules.ExpectedException;
 import ru.urfu.models.Message;
 import ru.urfu.storage.exceptions.MessageNotFound;
 
-import java.util.TreeMap;
+import java.util.HashMap;
 
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
@@ -27,11 +27,11 @@ public class TemporalStorageTest {
 
     @Before
     public void setUp() throws Exception {
-		TreeMap<Long, Message> messages = new TreeMap<>();
-        messages.put(1L, new Message(contents[0]));
-        messages.put(2L, new Message(contents[1]));
-        messages.put(4L, new Message(contents[2]));
-        messages.put(15L, new Message(contents[3]));
+		HashMap<Long, Message> messages = new HashMap<>();
+        messages.put(1L, new Message(1L, contents[0]));
+        messages.put(2L, new Message(2L, contents[1]));
+        messages.put(4L, new Message(3L, contents[2]));
+        messages.put(15L, new Message(4L, contents[3]));
 
         storage = new TemporalStorage(messages);
     }
@@ -46,13 +46,9 @@ public class TemporalStorageTest {
 
     @Test
     public void getAllMessages() throws Exception {
-        assertArrayEquals(contents, storage.getAllMessages().values().stream().map(Message::getContent).toArray());
+        assertArrayEquals(contents, storage.getAllMessages().stream().map(Message::getContent).toArray());
     }
 
-    @Test
-    public void createUniqIdForMessage() throws Exception {
-        assertEquals(16L, (long) storage.createUniqIdForMessage());
-    }
 
 	@Test
     public void addMessageWithUniqId() throws Exception {

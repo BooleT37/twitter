@@ -15,7 +15,8 @@ import ru.urfu.models.Message;
 import ru.urfu.storage.Storage;
 
 import javax.inject.Inject;
-import java.util.TreeMap;
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -40,9 +41,9 @@ public class MessagesControllerTest {
 	public void setUp() throws Exception {
 		MockitoAnnotations.initMocks(this);
 
-		TreeMap<Long, Message> messages = new TreeMap<Long, Message>() {};
-		messages.put(1L, new Message("Первое тест сообщение"));
-		messages.put(2L, new Message("Второе тест сообщение"));
+		List<Message> messages = new ArrayList<Message>() {};
+		messages.add(new Message(0L, "Первое тест сообщение"));
+		messages.add(new Message(1L, "Второе тест сообщение"));
 		when(storage.getAllMessages()).thenReturn(messages);
 	}
 

@@ -9,7 +9,7 @@
         This is your twitter application
         <ul class="messages">
             <c:forEach var="message" items="${messages}">
-                <c:out value="${message.getValue().getContent()}"/> <br/>
+                <c:out value="${message.getContent()}"/> <br/>
             </c:forEach>
         </ul>
     </body>

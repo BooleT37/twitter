@@ -16,7 +16,7 @@ import ru.urfu.storage.exceptions.MessageNotFound;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.util.HashMap;
-import java.util.Map;
+import java.util.List;
 
 /**
  * @author aarkaev
@@ -31,7 +31,7 @@ public class MessagesRestController {
     private Storage storage;
 
     @GetMapping("/getAllMessages")
-	Map<Long, Message> getAllMessages() {
+	List<Message> getAllMessages() {
         return storage.getAllMessages();
     }
 

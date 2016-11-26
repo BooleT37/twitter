@@ -9,7 +9,7 @@ import ru.urfu.storage.Storage;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.servlet.http.HttpServletResponse;
-import java.util.Map;
+import java.util.List;
 
 @Controller
 public class MessagesController {
@@ -19,7 +19,7 @@ public class MessagesController {
 
     @RequestMapping("/messages")
     public ModelAndView messages(HttpServletResponse response) {
-        Map<Long, Message> messages = storage.getAllMessages();
+        List<Message> messages = storage.getAllMessages();
         response.addHeader("Content-Type", "text/html; charset=utf-8");
         return new ModelAndView("messages", "messages", messages);
     }

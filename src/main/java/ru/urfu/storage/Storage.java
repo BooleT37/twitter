@@ -3,14 +3,12 @@ package ru.urfu.storage;
 import ru.urfu.models.Message;
 import ru.urfu.storage.exceptions.MessageNotFound;
 
-import java.util.Map;
+import java.util.List;
 
 public interface Storage {
     Message getMessageById(Long id) throws MessageNotFound;
 
-    Map<Long, Message> getAllMessages();
-
-    Long createUniqIdForMessage();
+    List<Message> getAllMessages();
 
     Long addMessage(Message message);
 
