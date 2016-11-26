@@ -5,26 +5,26 @@ import ru.urfu.storage.exceptions.MessageNotFound;
 
 import javax.annotation.PostConstruct;
 import javax.inject.Named;
-import java.util.NoSuchElementException;
-import java.util.TreeMap;
+import java.util.*;
 
 @Named
 public class TemporalStorage implements Storage {
 
-	private TreeMap<Long, Message> messages;
+	private Map<Long, Message> messages;
+	private Long lastMessageId = null;
 
 	TemporalStorage() {}
 
 	/**
 	 * For testing purposes
 	 */
-	TemporalStorage(TreeMap<Long, Message> messages) {
+	TemporalStorage(Map<Long, Message> messages) {
 		this.messages = messages;
 	}
 
 	@PostConstruct
 	void setUp() {
-		messages = new TreeMap<>();
+		messages = new HashMap<>();
 		this.addMessage(new Message("Моё первое сообщение"));
 		this.addMessage(new Message("Здесь будет новое сообщение :)"));
 	}
@@ -39,30 +39,33 @@ public class TemporalStorage implements Storage {
     }
 
 	@Override
-    public TreeMap<Long, Message> getAllMessages() {
+    public Map<Long, Message> getAllMessages() {
         return messages;
     }
 
 	@Override
     public Long createUniqIdForMessage() {
-        try {
-            Long lastId = messages.lastKey();
-            return lastId + 1;
-        } catch (NoSuchElementException e) {
-            return 0L;
-        }
+		if (lastMessageId == null)
+			lastMessageId = -1L;
+		if (!messages.containsKey(lastMessageId + 1))
+			return lastMessageId + 1;
+		Optional<Long> lastId = messages.keySet().stream().max(Comparator.naturalOrder());
+		return lastId.isPresent() ? lastId.get() + 1 : 0L;
     }
 
 	@Override
     public Long addMessage(Message message) {
         Long id = this.createUniqIdForMessage();
         messages.put(id, message);
+		lastMessageId++;
         return id;
     }
 
 	@Override
     public Message deleteMessageById(Long id) throws MessageNotFound {
         Message deletedMessage = messages.remove(id);
+        if (Objects.equals(id, lastMessageId))
+        	lastMessageId--;
         if (deletedMessage == null)
             throw new MessageNotFound(id);
         return deletedMessage;
