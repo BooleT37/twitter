@@ -14,6 +14,15 @@ public class TemporalStorage implements Storage {
 
 	private TreeMap<Long, Message> messages;
 
+	TemporalStorage() {}
+
+	/**
+	 * For testing purposes
+	 */
+	TemporalStorage(TreeMap<Long, Message> messages) {
+		this.messages = messages;
+	}
+
 	@PostConstruct
 	void setUp() {
 		messages = new TreeMap<>();
@@ -21,12 +30,7 @@ public class TemporalStorage implements Storage {
 		this.addMessageWithUniqId(new Message("Здесь будет новое сообщение :)"));
 	}
 
-	/**
-	 * For testing purposes
-	 */
-	void setMessages(TreeMap<Long, Message> messages) {
-		this.messages = messages;
-	}
+
 
 	@Override
     public Message getMessageById(Long id) throws MessageNotFound {

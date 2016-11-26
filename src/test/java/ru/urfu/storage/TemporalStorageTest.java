@@ -34,9 +34,7 @@ public class TemporalStorageTest {
         messages.put(4L, new Message(contents[2]));
         messages.put(15L, new Message(contents[3]));
 
-        storage = new TemporalStorage();
-		storage.setUp();
-        storage.setMessages(messages);
+        storage = new TemporalStorage(messages);
     }
 
     @Test
