@@ -14,7 +14,7 @@ import java.util.Map;
 @Controller
 public class MessagesController {
 
-    @Inject @Named("jsonFileStorage")
+    @Inject @Named("temporalStorage")
     private Storage storage;
 
     @RequestMapping("/messages")
