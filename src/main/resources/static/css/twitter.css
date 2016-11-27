@@ -1,0 +1,85 @@
+body {
+    font: 16px Segoe UI, Arial, sans-serif;
+}
+
+.content {
+   max-width: 800px;
+   min-width: 600px;
+   margin: 0 auto;
+}
+
+.title {
+   font-weight: 700;
+   font-size: 28px;
+   color: dodgerblue;
+   margin: 0 auto;
+   text-align: center;
+}
+
+.newMessageTextarea {
+    width: 99%;
+    font-size: 18px;
+}
+
+.newMessageTextarea.newMessageTextarea_folded {
+    height: 40px;
+}
+
+.newMessageTextarea, .newMessageTextarea_folded:focus {
+    height: 60px;
+}
+
+.sendButtonWrapper {
+    text-align: right;
+}
+
+.sendButton {
+    font-size: 18px;
+    font-weight: 500;
+    color: #35454c;
+    width: 80px;
+    height: 30px;
+    background: linear-gradient(#d9f1f9, #b3c9d0);
+    border-radius: 6px;
+    border: solid 1px #d9d9ff;
+}
+
+
+.sendButton:hover {
+    background: linear-gradient(#eaf7fb, #cad6da);
+    color: #6a757b;
+}
+
+.sendButton:disabled {
+    background: linear-gradient(#d4dcde, #cfd6d8);
+    color: #a2a2a2;
+}
+
+.messages {
+    margin: 15px auto 0px;
+}
+.message {
+    font-size: 18px;
+    border: solid 1px gray;
+    border-radius: 5px;
+    box-shadow: 2px 2px 5px darkgray;
+    padding: 5px;
+    margin-bottom: 15px;
+    position: relative;
+}
+
+.message__delete {
+    color: #ec9e95;
+    position: absolute;
+    top: 0px;
+    right: 4px;
+    line-height: 14px;
+    font-size: 22px;
+    font-weight: 600;
+    cursor: pointer;
+    display: none;
+}
+
+.message:hover .message__delete {
+    display: block;
+}

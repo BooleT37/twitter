@@ -3,14 +3,28 @@
 <!DOCTYPE html>
 
 <html>
-    <link rel="stylesheet" type="text/css" href="/twitter.css"/>
-    <body>
-        <h1>twitter</h1>
-        This is your twitter application
-        <ul class="messages">
-            <c:forEach var="message" items="${messages}">
-                <c:out value="${message.getContent()}"/> <br/>
-            </c:forEach>
-        </ul>
+    <head>
+        <title>Twitter</title>
+        <link rel="stylesheet" type="text/css" href="/css/twitter.css"/>
+        <script src="/js/jquery-3.1.1.min.js"></script>
+        <script src="/js/mustache.min.js"></script>
+        <script src="/js/templates.js"></script>
+        <script src="/js/twitter.js"></script>
+        <script>
+            window.data = {
+                "messages": ${messagesJson}
+            }
+        </script>
+    </head>
+    <body onload = "onLoad()">
+        <div class="content">
+            <div class="title">My messages</div>
+            <hr class="delim">
+  		    <textarea placeholder="Enter new message" class="newMessageTextarea newMessageTextarea_folded" id="newMessageTextarea"></textarea>
+  		    <div class="sendButtonWrapper">
+  		        <button id="sendButton" class="sendButton" disabled="disabled">Send</button>
+  		    </div>
+            <div class="messages" id="messages"></div>
+        </div>
     </body>
 </html>

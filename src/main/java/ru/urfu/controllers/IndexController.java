@@ -1,5 +1,9 @@
 package ru.urfu.controllers;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
@@ -17,11 +21,13 @@ public class IndexController {
     @Inject
     @Named("jpaMessagesStorage")
     private MessagesStorage messagesStorage;
+    private ObjectMapper mapper = new ObjectMapper();
+	private final Log logger = LogFactory.getLog(getClass());
 
     @RequestMapping("/")
-    public ModelAndView index(HttpServletResponse response) {
+    public ModelAndView index(HttpServletResponse response) throws JsonProcessingException {
         List<Message> messages = messagesStorage.getAllMessages();
-        response.addHeader("Content-Type", "text/html; charset=utf-8");
-        return new ModelAndView("index", "messages", messages);
+		response.addHeader("Content-Type", "text/html; charset=utf-8");
+        return new ModelAndView("index", "messagesJson", mapper.writeValueAsString(messages));
     }
 }
