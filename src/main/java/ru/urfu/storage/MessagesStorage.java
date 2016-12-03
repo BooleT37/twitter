@@ -10,7 +10,7 @@ public interface MessagesStorage {
 
     List<Message> getAllMessages();
 
-    Long addMessage(Message message);
+    Message addMessage(Message message);
 
     Message deleteMessageById(Long id) throws MessageNotFound;
 

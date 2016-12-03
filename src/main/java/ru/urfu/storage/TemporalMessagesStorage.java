@@ -53,12 +53,12 @@ public class TemporalMessagesStorage implements MessagesStorage {
     }
 
 	@Override
-    public Long addMessage(Message message) {
+    public Message addMessage(Message message) {
         Long id = this.createUniqIdForMessage();
 		message.setId(id);
         messages.put(id, message);
 		lastMessageId++;
-        return id;
+        return message;
     }
 
 	@Override

@@ -15,7 +15,6 @@ import ru.urfu.storage.exceptions.MessageNotFound;
 
 import javax.inject.Inject;
 import javax.inject.Named;
-import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -42,10 +41,8 @@ public class MessagesRestController {
 
     @PostMapping("/addMessage")
 	ResponseEntity addMessage(@RequestBody Message message) {
-        long id = messagesStorage.addMessage(message);
-        HashMap<String, Object> body = new HashMap<>();
-        body.put("id", id);
-        return ResponseEntity.ok(body);
+		messagesStorage.addMessage(message);
+        return ResponseEntity.ok(message);
     }
 
     @DeleteMapping("/deleteMessage")

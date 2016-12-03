@@ -52,8 +52,8 @@ public class TemporalStorageTest {
 
 	@Test
     public void addMessageWithUniqId() throws Exception {
-        Long id = storage.addMessage(new Message("Новое сообщение"));
-        assertEquals(16L, (long) id);
+        Message addedMessage = storage.addMessage(new Message("Новое сообщение"));
+        assertEquals(16L, (long) addedMessage.getId());
     }
 
     @Test

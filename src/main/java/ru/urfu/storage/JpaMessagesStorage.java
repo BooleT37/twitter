@@ -29,16 +29,18 @@ public class JpaMessagesStorage implements MessagesStorage {
 
 	@Override
 	@Transactional
-	public Long addMessage(Message message) {
+	public Message addMessage(Message message) {
 		em.persist(message);
 		em.flush();
-		return message.getId();
+		return message;
 	}
 
 	@Override
 	@Transactional
 	public Message deleteMessageById(Long id) throws MessageNotFound {
 		Message message = em.find(Message.class, id);
+		if (message == null)
+			throw new MessageNotFound(id);
 		em.remove(message);
 		return message;
 	}
