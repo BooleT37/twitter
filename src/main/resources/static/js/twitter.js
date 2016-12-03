@@ -43,11 +43,11 @@ function onLoad() {
 
     function renderMessage(model) {
         var jQMessage = $(Mustache.render(templates.message, model));
-        jQMessage.click(onMessageClick);
+        jQMessage.find(".message__delete").click(onDeleteMessageClick);
         return jQMessage;
     }
 
-    function onMessageClick(e) {
+    function onDeleteMessageClick(e) {
         var id = $(e.target).data("id");
         if (window.confirm("Do you really want to delete this message?"))
             $.ajax({
