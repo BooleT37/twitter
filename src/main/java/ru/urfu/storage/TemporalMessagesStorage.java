@@ -13,15 +13,6 @@ public class TemporalMessagesStorage implements MessagesStorage {
 	private Map<Long, Message> messages;
 	private Long lastMessageId = null;
 
-	TemporalMessagesStorage() {}
-
-	/**
-	 * For testing purposes
-	 */
-	TemporalMessagesStorage(Map<Long, Message> messages) {
-		this.messages = messages;
-	}
-
 	@PostConstruct
 	void setUp() {
 		messages = new HashMap<>();
@@ -55,6 +46,7 @@ public class TemporalMessagesStorage implements MessagesStorage {
 	@Override
     public Message addMessage(Message message) {
         Long id = this.createUniqIdForMessage();
+		Message newMessage = new Message(id, message.getContent());
 		message.setId(id);
         messages.put(id, message);
 		lastMessageId++;
