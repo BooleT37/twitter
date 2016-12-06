@@ -31,6 +31,11 @@ public class JpaMessagesStorageTest {
 	@Mock
 	private EntityManager em;
 
+	@Mock
+	private TypedQuery<Message> messageQueryResult;
+	@Mock
+	private TypedQuery<Long> longQueryResult;
+
 	@InjectMocks
 	private JpaMessagesStorage storage = new JpaMessagesStorage();
 
@@ -57,14 +62,13 @@ public class JpaMessagesStorageTest {
 
 	@Test
 	public void getAllMessages() throws Exception {
-		TypedQuery<Message> queryResult = mock(TypedQuery.class);
 		List<Message> messages = new ArrayList<>();
 		messages.add(new Message(0L, "Первое тест сообщение"));
 		messages.add(new Message(1L, "Второе тест сообщение"));
 		messages.add(new Message(2L, "Третье тест сообщение"));
 		messages.add(new Message(3L, "Четвертое тест сообщение"));
-		when(queryResult.getResultList()).thenReturn(messages);
-		when(em.createQuery("from " + Message.class.getName(), Message.class)).thenReturn(queryResult);
+		when(messageQueryResult.getResultList()).thenReturn(messages);
+		when(em.createQuery("from " + Message.class.getName(), Message.class)).thenReturn(messageQueryResult);
 
 		assertArrayEquals(contents, storage.getAllMessages().stream().map(Message::getContent).toArray());
 	}
@@ -86,10 +90,9 @@ public class JpaMessagesStorageTest {
 
 	@Test
 	public void isStorageEmpty() throws Exception {
-		TypedQuery<Long> queryResult = mock(TypedQuery.class);
 		String queryString = "select count(*) from " + Message.class.getName();
-		when(em.createQuery(queryString, Long.class)).thenReturn(queryResult);
-		storage.isStorageEmpty();
+		when(em.createQuery(queryString, Long.class)).thenReturn(longQueryResult);
+		storage.isEmpty();
 		verify(em).createQuery(queryString, Long.class);
 	}
 

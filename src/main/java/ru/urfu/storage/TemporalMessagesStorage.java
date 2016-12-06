@@ -31,7 +31,7 @@ public class TemporalMessagesStorage implements MessagesStorage {
 
 	@Override
     public List<Message> getAllMessages() {
-		return new ArrayList(messages.values());
+		return new ArrayList<>(messages.values());
     }
 
     private Long createUniqIdForMessage() {
