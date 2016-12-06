@@ -4,12 +4,14 @@ import org.springframework.stereotype.Repository;
 import ru.urfu.models.Message;
 import ru.urfu.storage.exceptions.MessageNotFound;
 
+import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
 import java.util.List;
 
 @Repository
+@Named
 public class JpaMessagesStorage implements MessagesStorage {
 	@PersistenceContext
 	private EntityManager em;
@@ -46,7 +48,7 @@ public class JpaMessagesStorage implements MessagesStorage {
 	}
 
 	@Override
-	public boolean isStorageEmpty() {
+	public boolean isEmpty() {
 		Long numberOfRows = em.createQuery("select count(*) from " + Message.class.getName(), Long.class).getSingleResult();
 		return numberOfRows == null || numberOfRows == 0L;
 	}

@@ -14,6 +14,6 @@ public interface MessagesStorage {
 
     Message deleteMessageById(Long id) throws MessageNotFound;
 
-    boolean isStorageEmpty();
+    boolean isEmpty();
 
 }

@@ -4,8 +4,10 @@ import ru.urfu.models.Message;
 import ru.urfu.storage.exceptions.MessageNotFound;
 
 import javax.annotation.PostConstruct;
+import javax.inject.Named;
 import java.util.*;
 
+@Named
 public class TemporalMessagesStorage implements MessagesStorage {
 
 	private Map<Long, Message> messages;
@@ -62,7 +64,7 @@ public class TemporalMessagesStorage implements MessagesStorage {
     }
 
 	@Override
-	public boolean isStorageEmpty() {
+	public boolean isEmpty() {
 		return messages.isEmpty();
 	}
 }
