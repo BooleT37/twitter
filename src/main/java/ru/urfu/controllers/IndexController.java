@@ -11,12 +11,13 @@ import ru.urfu.models.Message;
 import ru.urfu.storage.MessagesStorage;
 
 import javax.inject.Inject;
+import javax.inject.Named;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 @Controller
 public class IndexController {
-    @Inject
+    @Inject @Named("messagesStorage")
     private MessagesStorage messagesStorage;
     private ObjectMapper mapper = new ObjectMapper();
 	private final Log logger = LogFactory.getLog(getClass());

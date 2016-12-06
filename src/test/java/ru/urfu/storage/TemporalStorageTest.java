@@ -8,7 +8,6 @@ import org.junit.rules.ExpectedException;
 import ru.urfu.models.Message;
 import ru.urfu.storage.exceptions.MessageNotFound;
 
-import javax.inject.Inject;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
@@ -17,8 +16,6 @@ import java.util.Queue;
 import static org.junit.Assert.*;
 
 public class TemporalStorageTest {
-
-	@Inject
 	private TemporalMessagesStorage storage;
 
 	private Queue<Message> testMessages = new LinkedList<>();

@@ -26,7 +26,7 @@ public class MessagesRestController {
 
 	private final Log logger = LogFactory.getLog(getClass());
 
-    @Inject @Named("jpaMessagesStorage")
+    @Inject @Named("messagesStorage")
     private MessagesStorage messagesStorage;
 
     @GetMapping("/getAllMessages")
