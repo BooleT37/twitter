@@ -6,3 +6,4 @@ src/test/java/ru/urfu/utils/
 twitter.log
 messages.json
 target/
+/target/testdb.mv.db
