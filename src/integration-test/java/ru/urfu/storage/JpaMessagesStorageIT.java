@@ -34,6 +34,8 @@ public class JpaMessagesStorageIT {
 		assertNotNull(addedMessage);
 		assertNotNull(addedMessage.getId());
 		assertEquals(addedMessage.getContent(), content);
+
+		storage.deleteMessageById(addedMessage.getId());
 	}
 
 	@Test
