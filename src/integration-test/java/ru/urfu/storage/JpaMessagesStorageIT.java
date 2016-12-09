@@ -17,7 +17,7 @@ import java.util.Optional;
 import static org.junit.Assert.*;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
 public class JpaMessagesStorageIT {
 
 	@Inject @Named("jpaMessagesStorage")
