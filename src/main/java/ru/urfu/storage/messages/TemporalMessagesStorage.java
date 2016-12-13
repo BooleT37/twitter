@@ -1,11 +1,13 @@
 package ru.urfu.storage.messages;
 
 import ru.urfu.models.Message;
+import ru.urfu.models.User;
 import ru.urfu.storage.messages.exceptions.MessageNotFound;
 
 import javax.annotation.PostConstruct;
 import javax.inject.Named;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Named
 public class TemporalMessagesStorage implements MessagesStorage {
@@ -34,7 +36,12 @@ public class TemporalMessagesStorage implements MessagesStorage {
 		return new ArrayList<>(messages.values());
     }
 
-    private Long createUniqIdForMessage() {
+	@Override
+	public List<Message> getAll(User user) {
+		return messages.values().stream().filter(message -> message.getUser().equals(user)).collect(Collectors.toList());
+	}
+
+	private Long createUniqIdForMessage() {
 		if (lastMessageId == null || messages.containsKey(lastMessageId + 1)) {
 			Optional<Long> lastId = messages.keySet().stream().max(Comparator.naturalOrder());
 			lastMessageId = lastId.isPresent() ? lastId.get() : -1L;

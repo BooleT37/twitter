@@ -16,6 +16,9 @@ public class Message implements Serializable {
 	@Column(name = "content", length = 500, nullable = false)
     private String content;
 
+	@JoinColumn(name = "user", foreignKey = @ForeignKey(name = "FK_USER"))
+	private User user;
+
 	public Message() {}
 
 	public Message(Long id, String content) {
@@ -38,6 +41,14 @@ public class Message implements Serializable {
 
 	public void setId(Long id) {
 		this.id = id;
+	}
+
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
 	}
 
 	@Override

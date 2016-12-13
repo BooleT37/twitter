@@ -4,9 +4,12 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
@@ -15,6 +18,7 @@ import ru.urfu.models.User;
 import ru.urfu.storage.messages.MessagesStorage;
 import ru.urfu.storage.users.UsersStorage;
 import ru.urfu.storage.users.exceptions.UserAlreadyExists;
+import ru.urfu.storage.users.exceptions.UserNotFound;
 
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -34,10 +38,28 @@ public class IndexController {
 	private final Log logger = LogFactory.getLog(getClass());
 
     @RequestMapping("/")
-    public ModelAndView index(HttpServletResponse response) throws JsonProcessingException {
-        List<Message> messages = messagesStorage.getAll();
+    public void index(HttpServletResponse response) throws IOException {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (auth.isAuthenticated())
+            response.sendRedirect("/messages/" + auth.getName());
+        /*List<Message> messages = messagesStorage.getAll();
 		response.addHeader("Content-Type", "text/html; charset=utf-8");
-        return new ModelAndView("index", "messagesJson", mapper.writeValueAsString(messages));
+        return new ModelAndView("index", "messagesJson", mapper.writeValueAsString(messages));*/
+    }
+
+    @RequestMapping("/messages/:username")
+    public ModelAndView index(@PathVariable String username, HttpServletResponse response) throws JsonProcessingException {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        User user;
+        try {
+            user = usersStorage.getByLogin(username);
+        } catch (UserNotFound userNotFound) {
+            userNotFound.printStackTrace();
+            return new ModelAndView(); //todo сделать errorPage
+        }
+        List<Message> messages = messagesStorage.getAll(user);
+        response.addHeader("Content-Type", "text/html; charset=utf-8");
+        return new ModelAndView("messages", "messagesJson", mapper.writeValueAsString(messages));
     }
 
 	@GetMapping("/login")

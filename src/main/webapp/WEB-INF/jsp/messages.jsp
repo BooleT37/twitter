@@ -9,7 +9,7 @@
         <script src="/js/jquery-3.1.1.min.js"></script>
         <script src="/js/mustache.min.js"></script>
         <script src="/js/templates.js"></script>
-        <script src="/js/twitter.js"></script>
+        <script src="/js/messages.js"></script>
         <script>
             window.data = {
                 "messages": ${messagesJson}

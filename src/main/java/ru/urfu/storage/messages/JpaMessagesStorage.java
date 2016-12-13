@@ -2,6 +2,7 @@ package ru.urfu.storage.messages;
 
 import org.springframework.stereotype.Repository;
 import ru.urfu.models.Message;
+import ru.urfu.models.User;
 import ru.urfu.storage.messages.exceptions.MessageNotFound;
 
 import javax.inject.Named;
@@ -27,6 +28,11 @@ public class JpaMessagesStorage implements MessagesStorage {
 	@Override
 	public List<Message> getAll() {
 		return em.createQuery("from " + Message.class.getName(), Message.class).getResultList();
+	}
+
+	@Override
+	public List<Message> getAll(User user) {
+		return em.createQuery("from " + Message.class.getName() + " where user = :user", Message.class).setParameter("user", user).getResultList();
 	}
 
 	@Override
