@@ -45,10 +45,10 @@ public class MessagesRestControllerTest {
         messages.add(new Message(1L, contents[1]));
         messages.add(new Message(2L, contents[2]));
         messages.add(new Message(3L, contents[3]));
-        when(messagesStorage.getAllMessages()).thenReturn(messages);
+        when(messagesStorage.getAll()).thenReturn(messages);
 
-        when(messagesStorage.getMessageById(1L)).thenReturn(new Message(contents[0]));
-        when(messagesStorage.getMessageById(3L)).thenThrow(new MessageNotFound(3L));
+        when(messagesStorage.getById(1L)).thenReturn(new Message(contents[0]));
+        when(messagesStorage.getById(3L)).thenThrow(new MessageNotFound(3L));
     }
 
     @Test
@@ -72,7 +72,7 @@ public class MessagesRestControllerTest {
     public void addMessage() throws Exception {
     	Message message = new Message("Ещё одно сообщение");
 		controller.addMessage(message);
-		verify(messagesStorage, atLeastOnce()).addMessage(any(Message.class));
+		verify(messagesStorage, atLeastOnce()).add(any(Message.class));
     }
 
 }

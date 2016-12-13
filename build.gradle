@@ -67,4 +67,6 @@ dependencies {
 	testCompile('org.springframework.boot:spring-boot-starter-test')
 	integrationTestCompile 'io.rest-assured:rest-assured:3.0.1'
 	integrationTestCompile 'org.hamcrest:hamcrest-junit:2.0.0.0'
+    compile('org.springframework.security:spring-security-web')
+    compile('org.springframework.security:spring-security-config')
 }

@@ -6,13 +6,13 @@ import ru.urfu.storage.exceptions.MessageNotFound;
 import java.util.List;
 
 public interface MessagesStorage {
-    Message getMessageById(Long id) throws MessageNotFound;
+    Message getById(Long id) throws MessageNotFound;
 
-    List<Message> getAllMessages();
+    List<Message> getAll();
 
-    Message addMessage(Message message);
+    Message add(Message message);
 
-    Message deleteMessageById(Long id) throws MessageNotFound;
+    Message deleteById(Long id) throws MessageNotFound;
 
     boolean isEmpty();
 

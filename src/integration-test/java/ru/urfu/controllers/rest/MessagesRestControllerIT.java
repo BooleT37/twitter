@@ -32,7 +32,7 @@ import static org.hamcrest.core.IsEqual.equalTo;
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
 public class MessagesRestControllerIT {
-	private static final String getAllMessagesPath = "/getAllMessages";
+	private static final String getAllMessagesPath = "/getAll";
 	private static final String getMessagePath = "/getMessage";
 
 	@Inject @Named("messagesStorage")
@@ -52,7 +52,7 @@ public class MessagesRestControllerIT {
 		testMessages = new ArrayList<>();
 
 		for (String content: testMessageContents) {
-			testMessages.add(storage.addMessage(new Message(content)));
+			testMessages.add(storage.add(new Message(content)));
 		}
 	}
 
@@ -109,7 +109,7 @@ public class MessagesRestControllerIT {
 	@After
 	public void tearDown() throws MessageNotFound {
 		for (Message message: testMessages) {
-			storage.deleteMessageById(message.getId());
+			storage.deleteById(message.getId());
 		}
 	}
 

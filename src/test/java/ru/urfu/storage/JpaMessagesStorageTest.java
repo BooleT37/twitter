@@ -51,13 +51,13 @@ public class JpaMessagesStorageTest {
 	public void getMessageById() throws Exception {
 		long existingId = 0L;
 		when(em.find(Message.class, existingId)).thenReturn(new Message(existingId, "Первое тест сообщение"));
-		assertEquals(contents[0], storage.getMessageById(existingId).getContent());
+		assertEquals(contents[0], storage.getById(existingId).getContent());
 
 		long notExistingId = 5L;
 		when(em.find(Message.class, notExistingId)).thenReturn(null);
 		exception.expect(MessageNotFound.class);
 		exception.expectMessage(String.format("No message with such id: %d", notExistingId));
-		storage.getMessageById(notExistingId);
+		storage.getById(notExistingId);
 	}
 
 	@Test
@@ -70,12 +70,12 @@ public class JpaMessagesStorageTest {
 		when(messageQueryResult.getResultList()).thenReturn(messages);
 		when(em.createQuery("from " + Message.class.getName(), Message.class)).thenReturn(messageQueryResult);
 
-		assertArrayEquals(contents, storage.getAllMessages().stream().map(Message::getContent).toArray());
+		assertArrayEquals(contents, storage.getAll().stream().map(Message::getContent).toArray());
 	}
 
 	@Test
 	public void addMessage() throws Exception {
-		storage.addMessage(new Message("Новое сообщение"));
+		storage.add(new Message("Новое сообщение"));
 		verify(em).persist(any(Message.class));
 	}
 
@@ -83,7 +83,7 @@ public class JpaMessagesStorageTest {
 	public void deleteMessageById() throws Exception {
 		Long id = 1L;
 		when(em.find(Message.class, id)).thenReturn(new Message(id, "Тестовое сообщение для удаления"));
-		Message message = storage.deleteMessageById(id);
+		Message message = storage.deleteById(id);
 		assertEquals(id, message.getId());
 		verify(em).remove(any(Message.class));
 	}

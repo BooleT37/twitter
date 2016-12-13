@@ -28,47 +28,47 @@ public class JpaMessagesStorageIT {
 
 	@Test
 	public void addMessage() throws Exception {
-		String content = "Тестовое сообщение для getMessageById";
+		String content = "Тестовое сообщение для getById";
 		Message message = new Message(content);
-		Message addedMessage = storage.addMessage(message);
+		Message addedMessage = storage.add(message);
 		assertNotNull(addedMessage);
 		assertNotNull(addedMessage.getId());
 		assertEquals(addedMessage.getContent(), content);
 
-		storage.deleteMessageById(addedMessage.getId());
+		storage.deleteById(addedMessage.getId());
 	}
 
 	@Test
 	public void getAndDeleteMessageById() throws Exception {
 		String content = "Тестовое сообщение для getAndDeleteMessageById";
 		Message message = new Message(content);
-		Message added = storage.addMessage(message);
+		Message added = storage.add(message);
 		Long id = added.getId();
 
-		Message found = storage.getMessageById(id);
+		Message found = storage.getById(id);
 		assertEquals(found.getId(), id);
 		assertEquals(found.getContent(), content);
 
-		Message deleted = storage.deleteMessageById(id);
+		Message deleted = storage.deleteById(id);
 		assertEquals(deleted.getId(), id);
 		assertEquals(deleted.getContent(), content);
 
 		exception.expect(MessageNotFound.class);
 		exception.expectMessage(String.format("No message with such id: %s", id));
-		storage.getMessageById(id);
+		storage.getById(id);
 
 		exception.expect(MessageNotFound.class);
 		exception.expectMessage(String.format("No message with such id: %s", id));
-		storage.deleteMessageById(id);
+		storage.deleteById(id);
 	}
 
 	@Test
 	public void getAllMessages() throws Exception {
-		String content = "Тестовое сообщение для getAllMessages";
+		String content = "Тестовое сообщение для getAll";
 		Message message = new Message(content);
-		Message added = storage.addMessage(message);
+		Message added = storage.add(message);
 
-		List<Message> allMessages = storage.getAllMessages();
+		List<Message> allMessages = storage.getAll();
 		Optional<Message> found = allMessages.stream().filter(msg -> msg.getId().equals(added.getId())).findFirst();
 		assertTrue(found.isPresent());
 		if (found.isPresent()) {
@@ -76,15 +76,15 @@ public class JpaMessagesStorageIT {
 			assertEquals(added.getId(), found.get().getId());
 		}
 
-		storage.deleteMessageById(message.getId());
+		storage.deleteById(message.getId());
 	}
 
 
 	@Test
 	public void isStorageEmpty() throws Exception {
-		Message added = storage.addMessage(new Message("Тестовое сообщение для isStorageEmpty"));
+		Message added = storage.add(new Message("Тестовое сообщение для isStorageEmpty"));
 		assertFalse(storage.isEmpty());
-		storage.deleteMessageById(added.getId());
+		storage.deleteById(added.getId());
 	}
 
 }

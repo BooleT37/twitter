@@ -17,7 +17,7 @@ public class JpaMessagesStorage implements MessagesStorage {
 	private EntityManager em;
 
 	@Override
-	public Message getMessageById(Long id) throws MessageNotFound {
+	public Message getById(Long id) throws MessageNotFound {
 		Message message = em.find(Message.class, id);
 		if (message == null)
 			throw new MessageNotFound(id);
@@ -25,13 +25,13 @@ public class JpaMessagesStorage implements MessagesStorage {
 	}
 
 	@Override
-	public List<Message> getAllMessages() {
+	public List<Message> getAll() {
 		return em.createQuery("from " + Message.class.getName(), Message.class).getResultList();
 	}
 
 	@Override
 	@Transactional
-	public Message addMessage(Message message) {
+	public Message add(Message message) {
 		em.persist(message);
 		em.flush();
 		return message;
@@ -39,7 +39,7 @@ public class JpaMessagesStorage implements MessagesStorage {
 
 	@Override
 	@Transactional
-	public Message deleteMessageById(Long id) throws MessageNotFound {
+	public Message deleteById(Long id) throws MessageNotFound {
 		Message message = em.find(Message.class, id);
 		if (message == null)
 			throw new MessageNotFound(id);

@@ -39,7 +39,7 @@ public class IndexControllerTest {
 		List<Message> messages = new ArrayList<Message>() {};
 		messages.add(new Message(0L, "Первое тест сообщение"));
 		messages.add(new Message(1L, "Второе тест сообщение"));
-		when(messagesStorage.getAllMessages()).thenReturn(messages);
+		when(messagesStorage.getAll()).thenReturn(messages);
 	}
 
 	@Test

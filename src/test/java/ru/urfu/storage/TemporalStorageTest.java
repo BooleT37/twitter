@@ -31,7 +31,7 @@ public class TemporalStorageTest {
 
 	@Test
 	public void addMessage() throws Exception {
-    	final String content = "Тестовое сообщение для addMessage";
+    	final String content = "Тестовое сообщение для add";
 		Message testMessage = this.addTestMessage(new Message(content));
 		assertNotNull(testMessage.getId());
 		assertEquals(content, testMessage.getContent());
@@ -39,9 +39,9 @@ public class TemporalStorageTest {
 
     @Test
     public void getMessageById() throws Exception {
-		final String content = "Тестовое сообщение для getMessageById";
+		final String content = "Тестовое сообщение для getById";
 		Message testMessage = this.addTestMessage(new Message(content));
-		Message message = storage.getMessageById(testMessage.getId());
+		Message message = storage.getById(testMessage.getId());
         assertEquals(content, message.getContent());
         assertEquals(testMessage.getId(), message.getId());
 
@@ -50,14 +50,14 @@ public class TemporalStorageTest {
         Long wrongId = testMessage.getId() + 1;
         exception.expect(MessageNotFound.class);
         exception.expectMessage(String.format("No message with such id: %s", wrongId));
-        storage.getMessageById(wrongId);
+        storage.getById(wrongId);
     }
 
     @Test
     public void getAllMessages() throws Exception {
-		final String content = "Тестовое сообщение для getAllMessages";
+		final String content = "Тестовое сообщение для getAll";
 		Message addedMessage = this.addTestMessage(new Message(content));
-		List<Message> allMessages = storage.getAllMessages();
+		List<Message> allMessages = storage.getAll();
 		Optional<Message> foundMessage = allMessages.stream().filter(message -> message.getId().equals(addedMessage.getId())).findFirst();
 
 		assertTrue(foundMessage.isPresent());
@@ -69,20 +69,20 @@ public class TemporalStorageTest {
 
     @Test
     public void deleteMessageById() throws Exception {
-		final String content = "Тестовое сообщение для deleteMessageById";
-		Message addedMessage = storage.addMessage(new Message(content));
-        Message deletedMessage = storage.deleteMessageById(addedMessage.getId());
+		final String content = "Тестовое сообщение для deleteById";
+		Message addedMessage = storage.add(new Message(content));
+        Message deletedMessage = storage.deleteById(addedMessage.getId());
         assertEquals(deletedMessage.getContent(), content);
         assertEquals(deletedMessage.getId(), addedMessage.getId());
 
         //Trying to delete message once again, expecting error
         exception.expect(MessageNotFound.class);
         exception.expectMessage(String.format("No message with such id: %s", addedMessage.getId()));
-        storage.deleteMessageById(addedMessage.getId());
+        storage.deleteById(addedMessage.getId());
     }
 
     private Message addTestMessage(Message message) {
-    	Message newMessage = storage.addMessage(message);
+    	Message newMessage = storage.add(message);
 		testMessages.add(newMessage);
 		return newMessage;
 	}
@@ -91,7 +91,7 @@ public class TemporalStorageTest {
 	public void deleteTestMessages() throws MessageNotFound {
 		while (!testMessages.isEmpty()) {
 			Message message = testMessages.remove();
-			storage.deleteMessageById(message.getId());
+			storage.deleteById(message.getId());
 		}
 	}
 

@@ -16,13 +16,13 @@ public class TemporalMessagesStorage implements MessagesStorage {
 	@PostConstruct
 	void setUp() {
 		messages = new HashMap<>();
-		this.addMessage(new Message("Моё первое сообщение"));
-		this.addMessage(new Message("Здесь будет новое сообщение :)"));
+		this.add(new Message("Моё первое сообщение"));
+		this.add(new Message("Здесь будет новое сообщение :)"));
 	}
 
 
 	@Override
-    public Message getMessageById(Long id) throws MessageNotFound {
+    public Message getById(Long id) throws MessageNotFound {
         Message message = messages.get(id);
         if (message == null)
             throw new MessageNotFound(id);
@@ -30,7 +30,7 @@ public class TemporalMessagesStorage implements MessagesStorage {
     }
 
 	@Override
-    public List<Message> getAllMessages() {
+    public List<Message> getAll() {
 		return new ArrayList<>(messages.values());
     }
 
@@ -44,7 +44,7 @@ public class TemporalMessagesStorage implements MessagesStorage {
     }
 
 	@Override
-    public Message addMessage(Message message) {
+    public Message add(Message message) {
         Long id = this.createUniqIdForMessage();
 		Message newMessage = new Message(id, message.getContent());
 		message.setId(id);
@@ -54,7 +54,7 @@ public class TemporalMessagesStorage implements MessagesStorage {
     }
 
 	@Override
-    public Message deleteMessageById(Long id) throws MessageNotFound {
+    public Message deleteById(Long id) throws MessageNotFound {
         Message deletedMessage = messages.remove(id);
         if (Objects.equals(id, lastMessageId))
         	lastMessageId--;

@@ -29,26 +29,26 @@ public class MessagesRestController {
     @Inject @Named("messagesStorage")
     private MessagesStorage messagesStorage;
 
-    @GetMapping("/getAllMessages")
+    @GetMapping("/getAll")
 	List<Message> getAllMessages() {
-        return messagesStorage.getAllMessages();
+        return messagesStorage.getAll();
     }
 
     @GetMapping("/getMessage")
 	ResponseEntity<Message> getMessage(@RequestParam("id") Long id) throws MessageNotFound {
-		return ResponseEntity.ok(messagesStorage.getMessageById(id));
+		return ResponseEntity.ok(messagesStorage.getById(id));
     }
 
-    @PostMapping("/addMessage")
+    @PostMapping("/add")
 	ResponseEntity addMessage(@RequestBody Message message) {
-		messagesStorage.addMessage(message);
+		messagesStorage.add(message);
         return ResponseEntity.ok(message);
     }
 
     @DeleteMapping("/deleteMessage")
 	ResponseEntity<ApiSuccess> deleteMessage(@RequestBody DeleteMessageRequestModel model) throws MessageNotFound {
     	long id = model.getId();
-		messagesStorage.deleteMessageById(id);
+		messagesStorage.deleteById(id);
 		return ResponseEntity.ok(new ApiSuccess(String.format("Successfully deleted a message with id %d", id)));
 	}
 

@@ -24,7 +24,7 @@ public class IndexController {
 
     @RequestMapping("/")
     public ModelAndView index(HttpServletResponse response) throws JsonProcessingException {
-        List<Message> messages = messagesStorage.getAllMessages();
+        List<Message> messages = messagesStorage.getAll();
 		response.addHeader("Content-Type", "text/html; charset=utf-8");
         return new ModelAndView("index", "messagesJson", mapper.writeValueAsString(messages));
     }
