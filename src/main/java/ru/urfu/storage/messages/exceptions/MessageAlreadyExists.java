@@ -1,6 +1,6 @@
-package ru.urfu.storage.exceptions;
+package ru.urfu.storage.messages.exceptions;
 
-public class MessageAlreadyExists extends StorageManagerException {
+public class MessageAlreadyExists extends MessagesStorageException {
 	private MessageAlreadyExists(String message) {
 		super(message);
 	}

@@ -10,8 +10,8 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import ru.urfu.models.Message;
-import ru.urfu.storage.MessagesStorage;
-import ru.urfu.storage.exceptions.MessageNotFound;
+import ru.urfu.storage.messages.MessagesStorage;
+import ru.urfu.storage.messages.exceptions.MessageNotFound;
 
 import java.util.ArrayList;
 import java.util.List;

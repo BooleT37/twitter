@@ -1,7 +1,7 @@
-package ru.urfu.storage;
+package ru.urfu.storage.messages;
 
 import ru.urfu.models.Message;
-import ru.urfu.storage.exceptions.MessageNotFound;
+import ru.urfu.storage.messages.exceptions.MessageNotFound;
 
 import java.util.List;
 

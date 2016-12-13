@@ -10,17 +10,14 @@ import org.springframework.web.bind.annotation.*;
 import ru.urfu.controllers.rest.models.ApiError;
 import ru.urfu.controllers.rest.models.ApiSuccess;
 import ru.urfu.models.Message;
-import ru.urfu.storage.MessagesStorage;
-import ru.urfu.storage.exceptions.MessageNotFound;
+import ru.urfu.storage.messages.MessagesStorage;
+import ru.urfu.storage.messages.exceptions.MessageNotFound;
 
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.util.List;
 
-/**
- * @author aarkaev
- * @since 08.08.2016
- */
+
 @RestController
 public class MessagesRestController {
 
@@ -29,23 +26,23 @@ public class MessagesRestController {
     @Inject @Named("messagesStorage")
     private MessagesStorage messagesStorage;
 
-    @GetMapping("/getAll")
+    @GetMapping("/messages/all")
 	List<Message> getAllMessages() {
         return messagesStorage.getAll();
     }
 
-    @GetMapping("/getMessage")
+    @GetMapping("/messages/get")
 	ResponseEntity<Message> getMessage(@RequestParam("id") Long id) throws MessageNotFound {
 		return ResponseEntity.ok(messagesStorage.getById(id));
     }
 
-    @PostMapping("/add")
+    @PostMapping("/messages/add")
 	ResponseEntity addMessage(@RequestBody Message message) {
 		messagesStorage.add(message);
         return ResponseEntity.ok(message);
     }
 
-    @DeleteMapping("/deleteMessage")
+    @DeleteMapping("/messages/delete")
 	ResponseEntity<ApiSuccess> deleteMessage(@RequestBody DeleteMessageRequestModel model) throws MessageNotFound {
     	long id = model.getId();
 		messagesStorage.deleteById(id);

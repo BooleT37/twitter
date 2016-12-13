@@ -1,4 +1,4 @@
-package ru.urfu.storage;
+package ru.urfu.storage.messages;
 
 import org.junit.Before;
 import org.junit.Rule;
@@ -8,7 +8,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import ru.urfu.models.Message;
-import ru.urfu.storage.exceptions.MessageNotFound;
+import ru.urfu.storage.messages.exceptions.MessageNotFound;
 
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
@@ -18,7 +18,8 @@ import java.util.List;
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Matchers.any;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 public class JpaMessagesStorageTest {
 	private final String[] contents = new String[] {
@@ -50,7 +51,7 @@ public class JpaMessagesStorageTest {
 	@Test
 	public void getMessageById() throws Exception {
 		long existingId = 0L;
-		when(em.find(Message.class, existingId)).thenReturn(new Message(existingId, "Первое тест сообщение"));
+		when(em.find(Message.class, existingId)).thenReturn(new Message(existingId, contents[0]));
 		assertEquals(contents[0], storage.getById(existingId).getContent());
 
 		long notExistingId = 5L;

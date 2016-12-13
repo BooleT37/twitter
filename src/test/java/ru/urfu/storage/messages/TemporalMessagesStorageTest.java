@@ -1,4 +1,4 @@
-package ru.urfu.storage;
+package ru.urfu.storage.messages;
 
 import org.junit.After;
 import org.junit.Before;
@@ -6,7 +6,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import ru.urfu.models.Message;
-import ru.urfu.storage.exceptions.MessageNotFound;
+import ru.urfu.storage.messages.exceptions.MessageNotFound;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -15,8 +15,8 @@ import java.util.Queue;
 
 import static org.junit.Assert.*;
 
-public class TemporalStorageTest {
-	private TemporalMessagesStorage storage;
+public class TemporalMessagesStorageTest {
+	private TemporalMessagesStorage storage = new TemporalMessagesStorage();
 
 	private Queue<Message> testMessages = new LinkedList<>();
 
@@ -25,7 +25,6 @@ public class TemporalStorageTest {
 
 	@Before
 	public void setUp() throws Exception {
-		storage = new TemporalMessagesStorage();
 		storage.setUp();
 	}
 

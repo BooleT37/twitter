@@ -12,8 +12,8 @@ import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import ru.urfu.models.Message;
-import ru.urfu.storage.MessagesStorage;
-import ru.urfu.storage.exceptions.MessageNotFound;
+import ru.urfu.storage.messages.MessagesStorage;
+import ru.urfu.storage.messages.exceptions.MessageNotFound;
 
 import javax.inject.Inject;
 import javax.inject.Named;

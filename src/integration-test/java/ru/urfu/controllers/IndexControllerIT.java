@@ -10,7 +10,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import ru.urfu.models.Message;
-import ru.urfu.storage.MessagesStorage;
+import ru.urfu.storage.messages.MessagesStorage;
 
 import javax.inject.Inject;
 import java.util.ArrayList;
@@ -25,7 +25,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @AutoConfigureMockMvc
-public class IndexControllerTest {
+public class IndexControllerIT {
 	@Mock
 	private MessagesStorage messagesStorage;
 
@@ -48,7 +48,4 @@ public class IndexControllerTest {
 				.andExpect(status().isOk())
 				.andExpect(content().contentType("text/html; charset=utf-8"));
 	}
-
-
-
 }
