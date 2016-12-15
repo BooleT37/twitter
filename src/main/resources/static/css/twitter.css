@@ -8,12 +8,22 @@ body {
    margin: 0 auto;
 }
 
+.titleContainer {
+    position: relative
+}
+
 .title {
    font-weight: 700;
    font-size: 28px;
    color: dodgerblue;
    margin: 0 auto;
    text-align: center;
+}
+
+.logout {
+    position: absolute;
+    right: 0px;
+    top: 0px;
 }
 
 .newMessageTextarea {

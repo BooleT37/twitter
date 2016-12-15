@@ -16,7 +16,7 @@
     </head>
     <body onload = "onLoad()">
         <div class="content">
-            <div class="title">${model.userLogin}'s messages</div>
+            <div class="titleContainer"><div class="title">${model.userLogin}'s messages</div><a href="/logout" class="logout">Log out</a></div>
             <hr class="delim">
   		    <textarea placeholder="Enter new message" class="newMessageTextarea newMessageTextarea_folded" id="newMessageTextarea"></textarea>
   		    <div class="sendButtonWrapper">
