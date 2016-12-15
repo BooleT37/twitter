@@ -3,25 +3,25 @@
 <html>
 <head></head>
 <body>
-   <h1>Регистрация</h1>
+   <h1>Signup</h1>
       <c:if test="${errorMessage != null}">
           <div>
-              Ошибка создания пользователя<br/>
-              Причина: <c:out value="${errorMessage}" />
+              Error creating a user<br/>
+              Reason: <c:out value="${errorMessage}" />
           </div>
       </c:if>
    <form name='signup' action="signup" method='POST'>
       <table>
          <tr>
-            <td>Логин:</td>
+            <td>Login:</td>
             <td><input type='text' name='username' value=''></td>
          </tr>
          <tr>
-            <td>Пароль:</td>
+            <td>Password:</td>
             <td><input type='password' name='password' /></td>
          </tr>
          <tr>
-            <td>Повторите пароль:</td>
+            <td>Repeat password:</td>
             <td><input type='password' name='repeatPassword' /></td>
          </tr>
          <tr>

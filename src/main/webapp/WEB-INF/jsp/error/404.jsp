@@ -6,6 +6,8 @@
         <title>Twitter - ошибка 404</title>
     </head>
     <body>
-        <h2>Упс! Что-то пошло не так.</h2><br/>Страницы '<b>${path}</b>' не существует!<br/>Вы можете <a href ="/">вернуться на главную страницу</a>
+        <h2>Oops! Something went wrong.</h2><br/>
+        Page '<b>${path}</b>' doesn't exist!<br/><br/>
+        You can <a href ="/">return to the home page</a>
     </body>
 </html>

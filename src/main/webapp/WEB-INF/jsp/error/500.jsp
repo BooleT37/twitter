@@ -6,11 +6,11 @@
         <title>Twitter - ошибка 404</title>
     </head>
     <body>
-        <h2>Упс! Что-то пошло не так.</h2><br/>
-        Ошибка ${error}!<br/>
-        Код ошибки ${status}<br/>
+        <h2>Oops! Something went wrong.</h2><br/>
+        Error ${error}!<br/>
+        Error status ${status}<br/>
         Exception: ${exception}<br/>
-        Error message: ${message}<br/>
-        <br/><br/>Вы можете <a href ="/">вернуться на главную страницу</a>
+        Error message: ${message}<br/><br/>
+        You can <a href ="/">return to the home page</a>
     </body>
 </html>

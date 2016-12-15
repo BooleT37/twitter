@@ -3,33 +3,33 @@
 <html>
 <head></head>
 <body>
-   <h1>Вход</h1>
+   <h1>Login</h1>
       <c:if test="${param.error != null}">
           <div>
-              Ошибка аутентификации
+              Authentication error
               <c:if test="${SPRING_SECURITY_LAST_EXCEPTION != null}"><br/>
-                Причина: <c:out value="${SPRING_SECURITY_LAST_EXCEPTION.message}" />
+                Reason: <c:out value="${SPRING_SECURITY_LAST_EXCEPTION.message}" />
               </c:if>
           </div>
       </c:if>
       <c:if test="${param.logout != null}">
           <div>
-              Вы успешно вышли из системы.
+              You have successfully logged out.
           </div>
       </c:if>
       <c:if test="${param.newUser != null}">
            <div>
-               Пользователь ${newUser} успешно создан. Используйте логин и пароль чтобы войти
+               New user ${newUser} has beed successfully created. Use login and password to enter
            </div>
       </c:if>
    <form name='f' action="login" method='POST'>
       <table>
          <tr>
-            <td>Логин:</td>
+            <td>Login:</td>
             <td><input type='text' name='username' value=''></td>
          </tr>
          <tr>
-            <td>Пароль:</td>
+            <td>Password:</td>
             <td><input type='password' name='password' /></td>
          </tr>
          <tr>
@@ -38,6 +38,6 @@
       </table>
   </form>
   <br/>
-  Нет учетной записи? <a href="/signup">Зарегистрироваться</a>
+  Don't have an account? <a href="/signup">Sign up</a>
 </body>
 </html>
