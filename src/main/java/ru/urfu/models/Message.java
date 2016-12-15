@@ -16,8 +16,9 @@ public class Message implements Serializable {
 	@Column(name = "content", length = 500, nullable = false)
     private String content;
 
-	@JoinColumn(name = "user", foreignKey = @ForeignKey(name = "FK_USER"))
-	private User user;
+    @JoinColumn(name = "user", updatable=false, insertable=false)
+    @ManyToOne(targetEntity=User.class)
+    private String userLogin;
 
 	public Message() {}
 
@@ -27,8 +28,9 @@ public class Message implements Serializable {
 	}
 
 	@JsonCreator
-    public Message(@JsonProperty("content") String content) {
+    public Message(@JsonProperty("content") String content, @JsonProperty("userLogin") String userLogin) {
         this.content = content;
+        this.userLogin = userLogin;
     }
 
     public String getContent() {
@@ -43,15 +45,15 @@ public class Message implements Serializable {
 		this.id = id;
 	}
 
-	public User getUser() {
-		return user;
-	}
+    public String getUserLogin() {
+        return userLogin;
+    }
 
-	public void setUser(User user) {
-		this.user = user;
-	}
+    public void setUserLogin(String userLogin) {
+        this.userLogin = userLogin;
+    }
 
-	@Override
+    @Override
 	public boolean equals(Object o) {
 		if (this == o) return true;
 		if (o == null || getClass() != o.getClass()) return false;

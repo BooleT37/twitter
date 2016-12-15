@@ -25,7 +25,9 @@ import javax.inject.Named;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 @Controller
@@ -47,19 +49,25 @@ public class IndexController {
         return new ModelAndView("index", "messagesJson", mapper.writeValueAsString(messages));*/
     }
 
-    @RequestMapping("/messages/:username")
-    public ModelAndView index(@PathVariable String username, HttpServletResponse response) throws JsonProcessingException {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+    @RequestMapping("/messages/{username}")
+    public ModelAndView index(@PathVariable("username") String username, HttpServletResponse response) throws JsonProcessingException {
+        //Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         User user;
         try {
             user = usersStorage.getByLogin(username);
         } catch (UserNotFound userNotFound) {
-            userNotFound.printStackTrace();
-            return new ModelAndView(); //todo сделать errorPage
+            throw new ResourceNotFoundException(userNotFound.getMessage());
         }
         List<Message> messages = messagesStorage.getAll(user);
         response.addHeader("Content-Type", "text/html; charset=utf-8");
-        return new ModelAndView("messages", "messagesJson", mapper.writeValueAsString(messages));
+        Map<String, Object> model = new HashMap<>();
+        Map<String, Object> jsData = new HashMap<>();
+		jsData.put("messages", messages);
+		jsData.put("userLogin", user.getLogin());
+
+        model.put("jsonData", mapper.writeValueAsString(jsData));
+        model.put("userLogin", user.getLogin());
+        return new ModelAndView("messages", "model", model);
     }
 
 	@GetMapping("/login")

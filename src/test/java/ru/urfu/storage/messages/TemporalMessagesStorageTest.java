@@ -1,7 +1,6 @@
 package ru.urfu.storage.messages;
 
 import org.junit.After;
-import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
@@ -20,18 +19,15 @@ public class TemporalMessagesStorageTest {
 
 	private Queue<Message> testMessages = new LinkedList<>();
 
+	private final String testUserLogin = "test_user";
+
     @Rule
     public final ExpectedException exception = ExpectedException.none();
-
-	@Before
-	public void setUp() throws Exception {
-		storage.setUp();
-	}
 
 	@Test
 	public void addMessage() throws Exception {
     	final String content = "Тестовое сообщение для add";
-		Message testMessage = this.addTestMessage(new Message(content));
+		Message testMessage = this.addTestMessage(new Message(content, testUserLogin));
 		assertNotNull(testMessage.getId());
 		assertEquals(content, testMessage.getContent());
 	}
@@ -39,7 +35,7 @@ public class TemporalMessagesStorageTest {
     @Test
     public void getMessageById() throws Exception {
 		final String content = "Тестовое сообщение для getById";
-		Message testMessage = this.addTestMessage(new Message(content));
+		Message testMessage = this.addTestMessage(new Message(content, testUserLogin));
 		Message message = storage.getById(testMessage.getId());
         assertEquals(content, message.getContent());
         assertEquals(testMessage.getId(), message.getId());
@@ -55,7 +51,7 @@ public class TemporalMessagesStorageTest {
     @Test
     public void getAllMessages() throws Exception {
 		final String content = "Тестовое сообщение для getAll";
-		Message addedMessage = this.addTestMessage(new Message(content));
+		Message addedMessage = this.addTestMessage(new Message(content, testUserLogin));
 		List<Message> allMessages = storage.getAll();
 		Optional<Message> foundMessage = allMessages.stream().filter(message -> message.getId().equals(addedMessage.getId())).findFirst();
 
@@ -69,7 +65,7 @@ public class TemporalMessagesStorageTest {
     @Test
     public void deleteMessageById() throws Exception {
 		final String content = "Тестовое сообщение для deleteById";
-		Message addedMessage = storage.add(new Message(content));
+		Message addedMessage = storage.add(new Message(content, testUserLogin));
         Message deletedMessage = storage.deleteById(addedMessage.getId());
         assertEquals(deletedMessage.getContent(), content);
         assertEquals(deletedMessage.getId(), addedMessage.getId());

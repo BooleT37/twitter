@@ -4,7 +4,6 @@ import ru.urfu.models.Message;
 import ru.urfu.models.User;
 import ru.urfu.storage.messages.exceptions.MessageNotFound;
 
-import javax.annotation.PostConstruct;
 import javax.inject.Named;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -12,16 +11,8 @@ import java.util.stream.Collectors;
 @Named
 public class TemporalMessagesStorage implements MessagesStorage {
 
-	private Map<Long, Message> messages;
+	private Map<Long, Message> messages = new HashMap<>();
 	private Long lastMessageId = null;
-
-	@PostConstruct
-	void setUp() {
-		messages = new HashMap<>();
-		this.add(new Message("Моё первое сообщение"));
-		this.add(new Message("Здесь будет новое сообщение :)"));
-	}
-
 
 	@Override
     public Message getById(Long id) throws MessageNotFound {
@@ -38,7 +29,7 @@ public class TemporalMessagesStorage implements MessagesStorage {
 
 	@Override
 	public List<Message> getAll(User user) {
-		return messages.values().stream().filter(message -> message.getUser().equals(user)).collect(Collectors.toList());
+		return messages.values().stream().filter(message -> message.getUserLogin().equals(user.getLogin())).collect(Collectors.toList());
 	}
 
 	private Long createUniqIdForMessage() {

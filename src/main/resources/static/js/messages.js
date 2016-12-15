@@ -1,6 +1,10 @@
 function onLoad() {
     "use strict";
-    var data = window.data;
+
+    var addMessageUrl = "/messages/add";
+    var deleteMessageUrl = "/messages/delete";
+
+    var data = window.jsData;
     var messagesJquery = data.messages.reduce(function(previousElement, messageModel) {
         return previousElement.add(renderMessage(messageModel));
     }, $());
@@ -20,8 +24,8 @@ function onLoad() {
     $("#sendButton").click(function() {
         var messageText = $("#newMessageTextarea").val().toString();
         $.ajax({
-            url: "/addMessage",
-            data: JSON.stringify({content: messageText}),
+            url: addMessageUrl,
+            data: JSON.stringify({content: messageText, userLogin: data.userLogin}),
             method: "post",
             contentType: "application/json; charset=UTF-8"
         }).done(function(response) {
@@ -51,7 +55,7 @@ function onLoad() {
         var id = $(e.target).data("id");
         if (window.confirm("Do you really want to delete this message?"))
             $.ajax({
-                url: "/deleteMessage",
+                url: deleteMessageUrl,
                 data: JSON.stringify({id: id}),
                 method: "delete",
                 contentType: "application/json"

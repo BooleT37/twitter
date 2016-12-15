@@ -11,14 +11,12 @@
         <script src="/js/templates.js"></script>
         <script src="/js/messages.js"></script>
         <script>
-            window.data = {
-                "messages": ${messagesJson}
-            }
+            window.jsData = ${model.jsonData}
         </script>
     </head>
     <body onload = "onLoad()">
         <div class="content">
-            <div class="title">My messages</div>
+            <div class="title">${model.userLogin}'s messages</div>
             <hr class="delim">
   		    <textarea placeholder="Enter new message" class="newMessageTextarea newMessageTextarea_folded" id="newMessageTextarea"></textarea>
   		    <div class="sendButtonWrapper">
