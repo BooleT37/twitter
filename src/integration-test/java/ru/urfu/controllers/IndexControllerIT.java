@@ -51,8 +51,8 @@ public class IndexControllerIT {
         usersStorage.add(user);
 
 		addedMessagesIds = new ArrayList<>();
-        addedMessagesIds.add(messagesStorage.add(new Message(0L, "Первое тест сообщение", user)).getId());
-        addedMessagesIds.add(messagesStorage.add(new Message(1L, "Второе тест сообщение", user)).getId());
+        addedMessagesIds.add(messagesStorage.add(new Message("Первое тест сообщение", user)).getId());
+        addedMessagesIds.add(messagesStorage.add(new Message("Второе тест сообщение", user)).getId());
 	}
 
     @After
@@ -83,7 +83,7 @@ public class IndexControllerIT {
     }
 
     @Test
-    @WithMockUser(username = testUserLogin, password = testUserPassword)
+    @WithMockUser(username = testUserLogin, password = testUserPassword, authorities = "USER")
     public void messages() throws Exception {
         mockMvc.perform(get("/messages/" + testUserLogin))
                 .andExpect((status().isOk()));
