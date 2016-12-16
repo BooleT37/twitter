@@ -7,7 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.urfu.controllers.rest.models.ApiError;
-import ru.urfu.models.User;
+import ru.urfu.entities.User;
 import ru.urfu.storage.users.UsersStorage;
 import ru.urfu.storage.users.exceptions.UserAlreadyExists;
 import ru.urfu.storage.users.exceptions.UserNotFound;
@@ -16,6 +16,8 @@ import ru.urfu.storage.users.exceptions.UsersStorageException;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+@RestController
+@RequestMapping("/rest/users")
 public class UsersRestController {
 	private final Log logger = LogFactory.getLog(getClass());
 
@@ -23,12 +25,12 @@ public class UsersRestController {
 	@Named("usersStorage")
 	private UsersStorage usersStorage;
 
-	@GetMapping("/users/get")
+	@GetMapping("get")
 	ResponseEntity<User> getUser(@RequestParam("login") String login) throws UserNotFound {
 		return ResponseEntity.ok(usersStorage.getByLogin(login));
 	}
 
-	@PostMapping("/users/add")
+	@PostMapping("add")
 	ResponseEntity<User> addUser(@RequestBody User user) throws UserAlreadyExists {
 		return ResponseEntity.ok(usersStorage.add(user));
 	}

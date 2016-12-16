@@ -18,11 +18,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	@Inject
 	private AuthenticationProvider authenticationProvider;
 
+	//private myAccessDeniedHandler
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable()
             .authorizeRequests()
-            .antMatchers("/css/**", "/js/**", "/login", "/signup").permitAll()
+            .antMatchers("/css/**", "/js/**", "/login", "/signup", "/rest/messages/**", "/rest/messages/**")
+                .permitAll() //todo authorization for REST
             .antMatchers("/**").hasRole("USER")
             .and()
             .formLogin()

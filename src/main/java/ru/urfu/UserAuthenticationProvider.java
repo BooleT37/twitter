@@ -6,7 +6,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import ru.urfu.models.User;
+import ru.urfu.entities.User;
 import ru.urfu.storage.users.UsersStorage;
 import ru.urfu.storage.users.exceptions.UserNotFound;
 
@@ -35,7 +35,7 @@ public class UserAuthenticationProvider implements AuthenticationProvider {
 			throw new UserAuthenticationException("Wrong password");
 
 		List<GrantedAuthority> grantedAuths = new ArrayList<>();
-		grantedAuths.add(new SimpleGrantedAuthority("ROLE_USER"));
+		grantedAuths.add(new SimpleGrantedAuthority("USER"));
 		return new UsernamePasswordAuthenticationToken(name, password, grantedAuths);
 	}
 

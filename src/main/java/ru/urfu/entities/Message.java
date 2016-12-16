@@ -1,7 +1,4 @@
-package ru.urfu.models;
-
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonProperty;
+package ru.urfu.entities;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -16,22 +13,28 @@ public class Message implements Serializable {
 	@Column(name = "content", length = 500, nullable = false)
     private String content;
 
-    @JoinColumn(name = "user", updatable=false, insertable=false)
+    @JoinColumn(name = "user")
     @ManyToOne(targetEntity=User.class)
-    private String userLogin;
+    private User user;
 
 	public Message() {}
 
-	public Message(Long id, String content) {
+	public Message(Long id, String content, User user) {
 		this.id = id;
 		this.content = content;
+		this.user = user;
 	}
 
-	@JsonCreator
-    public Message(@JsonProperty("content") String content, @JsonProperty("userLogin") String userLogin) {
+	public Message(String content, User user) {
+		this.content = content;
+		this.user = user;
+	}
+
+	/*@JsonCreator
+    public Message(@JsonProperty("content") String content, @JsonProperty("user") String user) {
         this.content = content;
-        this.userLogin = userLogin;
-    }
+        this.user = user;
+    }*/
 
     public String getContent() {
         return this.content;
@@ -45,12 +48,12 @@ public class Message implements Serializable {
 		this.id = id;
 	}
 
-    public String getUserLogin() {
-        return userLogin;
+    public User getUser() {
+        return user;
     }
 
-    public void setUserLogin(String userLogin) {
-        this.userLogin = userLogin;
+    public void setUser(User user) {
+        this.user = user;
     }
 
     @Override

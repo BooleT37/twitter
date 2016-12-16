@@ -6,7 +6,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Repository;
-import ru.urfu.models.User;
+import ru.urfu.entities.User;
 import ru.urfu.storage.users.exceptions.UserAlreadyExists;
 import ru.urfu.storage.users.exceptions.UserNotFound;
 
@@ -42,6 +42,7 @@ public class JpaUsersStorage implements UsersStorage, UserDetailsService {
 	}
 
 	@Override
+	@Transactional
 	public User deleteByLogin(String login) throws UserNotFound {
 		User user = em.find(User.class, login);
 		if (user == null)
@@ -60,7 +61,7 @@ public class JpaUsersStorage implements UsersStorage, UserDetailsService {
 			throw new UsernameNotFoundException(userNotFound.getMessage());
 		}
 		List<GrantedAuthority> grantedAuths = new ArrayList<>();
-		grantedAuths.add(new SimpleGrantedAuthority("ROLE_USER"));
+		grantedAuths.add(new SimpleGrantedAuthority("USER"));
 		return new org.springframework.security.core.userdetails.User(user.getLogin(), user.getPassword(), grantedAuths);
 	}
 }

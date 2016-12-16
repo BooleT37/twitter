@@ -69,4 +69,5 @@ dependencies {
 	integrationTestCompile 'org.hamcrest:hamcrest-junit:2.0.0.0'
     compile('org.springframework.security:spring-security-web')
     compile('org.springframework.security:spring-security-config')
+    compile('org.springframework.security:spring-security-test')
 }

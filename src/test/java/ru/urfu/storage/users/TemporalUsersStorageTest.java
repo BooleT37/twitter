@@ -4,7 +4,7 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
-import ru.urfu.models.User;
+import ru.urfu.entities.User;
 import ru.urfu.storage.users.exceptions.UserAlreadyExists;
 import ru.urfu.storage.users.exceptions.UserNotFound;
 

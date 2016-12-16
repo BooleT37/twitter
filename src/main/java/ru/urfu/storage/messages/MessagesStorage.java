@@ -1,7 +1,7 @@
 package ru.urfu.storage.messages;
 
-import ru.urfu.models.Message;
-import ru.urfu.models.User;
+import ru.urfu.entities.Message;
+import ru.urfu.entities.User;
 import ru.urfu.storage.messages.exceptions.MessageNotFound;
 
 import java.util.List;

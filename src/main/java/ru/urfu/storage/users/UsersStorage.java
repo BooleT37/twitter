@@ -1,6 +1,6 @@
 package ru.urfu.storage.users;
 
-import ru.urfu.models.User;
+import ru.urfu.entities.User;
 import ru.urfu.storage.users.exceptions.UserAlreadyExists;
 import ru.urfu.storage.users.exceptions.UserNotFound;
 

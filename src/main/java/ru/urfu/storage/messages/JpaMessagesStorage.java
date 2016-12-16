@@ -1,8 +1,8 @@
 package ru.urfu.storage.messages;
 
 import org.springframework.stereotype.Repository;
-import ru.urfu.models.Message;
-import ru.urfu.models.User;
+import ru.urfu.entities.Message;
+import ru.urfu.entities.User;
 import ru.urfu.storage.messages.exceptions.MessageNotFound;
 
 import javax.inject.Named;

@@ -13,8 +13,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
-import ru.urfu.models.Message;
-import ru.urfu.models.User;
+import ru.urfu.entities.Message;
+import ru.urfu.entities.User;
 import ru.urfu.storage.messages.MessagesStorage;
 import ru.urfu.storage.users.UsersStorage;
 import ru.urfu.storage.users.exceptions.UserAlreadyExists;
@@ -47,27 +47,6 @@ public class IndexController {
         /*List<Message> messages = messagesStorage.getAll();
 		response.addHeader("Content-Type", "text/html; charset=utf-8");
         return new ModelAndView("index", "messagesJson", mapper.writeValueAsString(messages));*/
-    }
-
-    @RequestMapping("/messages/{username}")
-    public ModelAndView index(@PathVariable("username") String username, HttpServletResponse response) throws JsonProcessingException {
-        //Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        User user;
-        try {
-            user = usersStorage.getByLogin(username);
-        } catch (UserNotFound userNotFound) {
-            throw new ResourceNotFoundException(userNotFound.getMessage());
-        }
-        List<Message> messages = messagesStorage.getAll(user);
-        response.addHeader("Content-Type", "text/html; charset=utf-8");
-        Map<String, Object> model = new HashMap<>();
-        Map<String, Object> jsData = new HashMap<>();
-		jsData.put("messages", messages);
-		jsData.put("userLogin", user.getLogin());
-
-        model.put("jsonData", mapper.writeValueAsString(jsData));
-        model.put("userLogin", user.getLogin());
-        return new ModelAndView("messages", "model", model);
     }
 
 	@GetMapping("/login")
@@ -113,5 +92,26 @@ public class IndexController {
 			return;
 		}
 		response.sendRedirect("/login?newUser=" + login);
+	}
+
+	@RequestMapping("/messages/{username}")
+	public ModelAndView index(@PathVariable("username") String username, HttpServletResponse response) throws JsonProcessingException {
+		//Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		User user;
+		try {
+			user = usersStorage.getByLogin(username);
+		} catch (UserNotFound userNotFound) {
+			throw new ResourceNotFoundException(userNotFound.getMessage());
+		}
+		List<Message> messages = messagesStorage.getAll(user);
+		response.addHeader("Content-Type", "text/html; charset=utf-8");
+		Map<String, Object> model = new HashMap<>();
+		Map<String, Object> jsData = new HashMap<>();
+		jsData.put("messages", messages);
+		jsData.put("userLogin", user.getLogin());
+
+		model.put("jsonData", mapper.writeValueAsString(jsData));
+		model.put("userLogin", user.getLogin());
+		return new ModelAndView("messages", "model", model);
 	}
 }

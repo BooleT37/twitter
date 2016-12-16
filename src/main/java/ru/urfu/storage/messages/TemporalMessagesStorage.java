@@ -1,7 +1,7 @@
 package ru.urfu.storage.messages;
 
-import ru.urfu.models.Message;
-import ru.urfu.models.User;
+import ru.urfu.entities.Message;
+import ru.urfu.entities.User;
 import ru.urfu.storage.messages.exceptions.MessageNotFound;
 
 import javax.inject.Named;
@@ -29,7 +29,7 @@ public class TemporalMessagesStorage implements MessagesStorage {
 
 	@Override
 	public List<Message> getAll(User user) {
-		return messages.values().stream().filter(message -> message.getUserLogin().equals(user.getLogin())).collect(Collectors.toList());
+		return messages.values().stream().filter(message -> message.getUser().equals(user)).collect(Collectors.toList());
 	}
 
 	private Long createUniqIdForMessage() {
@@ -44,7 +44,6 @@ public class TemporalMessagesStorage implements MessagesStorage {
 	@Override
     public Message add(Message message) {
         Long id = this.createUniqIdForMessage();
-		Message newMessage = new Message(id, message.getContent());
 		message.setId(id);
         messages.put(id, message);
 		lastMessageId++;

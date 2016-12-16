@@ -4,7 +4,8 @@ import org.junit.After;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
-import ru.urfu.models.Message;
+import ru.urfu.entities.Message;
+import ru.urfu.entities.User;
 import ru.urfu.storage.messages.exceptions.MessageNotFound;
 
 import java.util.LinkedList;
@@ -15,11 +16,11 @@ import java.util.Queue;
 import static org.junit.Assert.*;
 
 public class TemporalMessagesStorageTest {
+	private final User testUser = new User("Test_user", "test_password");
+
 	private TemporalMessagesStorage storage = new TemporalMessagesStorage();
 
 	private Queue<Message> testMessages = new LinkedList<>();
-
-	private final String testUserLogin = "test_user";
 
     @Rule
     public final ExpectedException exception = ExpectedException.none();
@@ -27,7 +28,7 @@ public class TemporalMessagesStorageTest {
 	@Test
 	public void addMessage() throws Exception {
     	final String content = "Тестовое сообщение для add";
-		Message testMessage = this.addTestMessage(new Message(content, testUserLogin));
+		Message testMessage = this.addTestMessage(new Message(content, testUser));
 		assertNotNull(testMessage.getId());
 		assertEquals(content, testMessage.getContent());
 	}
@@ -35,7 +36,7 @@ public class TemporalMessagesStorageTest {
     @Test
     public void getMessageById() throws Exception {
 		final String content = "Тестовое сообщение для getById";
-		Message testMessage = this.addTestMessage(new Message(content, testUserLogin));
+		Message testMessage = this.addTestMessage(new Message(content, testUser));
 		Message message = storage.getById(testMessage.getId());
         assertEquals(content, message.getContent());
         assertEquals(testMessage.getId(), message.getId());
@@ -51,7 +52,7 @@ public class TemporalMessagesStorageTest {
     @Test
     public void getAllMessages() throws Exception {
 		final String content = "Тестовое сообщение для getAll";
-		Message addedMessage = this.addTestMessage(new Message(content, testUserLogin));
+		Message addedMessage = this.addTestMessage(new Message(content, testUser));
 		List<Message> allMessages = storage.getAll();
 		Optional<Message> foundMessage = allMessages.stream().filter(message -> message.getId().equals(addedMessage.getId())).findFirst();
 
@@ -65,7 +66,7 @@ public class TemporalMessagesStorageTest {
     @Test
     public void deleteMessageById() throws Exception {
 		final String content = "Тестовое сообщение для deleteById";
-		Message addedMessage = storage.add(new Message(content, testUserLogin));
+		Message addedMessage = storage.add(new Message(content, testUser));
         Message deletedMessage = storage.deleteById(addedMessage.getId());
         assertEquals(deletedMessage.getContent(), content);
         assertEquals(deletedMessage.getId(), addedMessage.getId());

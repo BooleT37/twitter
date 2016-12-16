@@ -7,7 +7,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.support.SpringBootServletInitializer;
 import org.springframework.context.annotation.Bean;
-import ru.urfu.models.User;
+import ru.urfu.entities.User;
 import ru.urfu.storage.users.UsersStorage;
 
 import javax.inject.Inject;

@@ -7,7 +7,8 @@ import org.junit.rules.ExpectedException;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import ru.urfu.models.Message;
+import ru.urfu.entities.Message;
+import ru.urfu.entities.User;
 import ru.urfu.storage.messages.exceptions.MessageNotFound;
 
 import javax.persistence.EntityManager;
@@ -22,6 +23,8 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 public class JpaMessagesStorageTest {
+	private final User testUser = new User("Test_user", "test_password");
+
 	private final String[] contents = new String[] {
 			"Первое тест сообщение",
 			"Второе тест сообщение",
@@ -51,7 +54,7 @@ public class JpaMessagesStorageTest {
 	@Test
 	public void getMessageById() throws Exception {
 		long existingId = 0L;
-		when(em.find(Message.class, existingId)).thenReturn(new Message(existingId, contents[0]));
+		when(em.find(Message.class, existingId)).thenReturn(new Message(existingId, contents[0], testUser));
 		assertEquals(contents[0], storage.getById(existingId).getContent());
 
 		long notExistingId = 5L;
@@ -64,10 +67,10 @@ public class JpaMessagesStorageTest {
 	@Test
 	public void getAllMessages() throws Exception {
 		List<Message> messages = new ArrayList<>();
-		messages.add(new Message(0L, "Первое тест сообщение"));
-		messages.add(new Message(1L, "Второе тест сообщение"));
-		messages.add(new Message(2L, "Третье тест сообщение"));
-		messages.add(new Message(3L, "Четвертое тест сообщение"));
+		messages.add(new Message(0L, "Первое тест сообщение", testUser));
+		messages.add(new Message(1L, "Второе тест сообщение", testUser));
+		messages.add(new Message(2L, "Третье тест сообщение", testUser));
+		messages.add(new Message(3L, "Четвертое тест сообщение", testUser));
 		when(messageQueryResult.getResultList()).thenReturn(messages);
 		when(em.createQuery("from " + Message.class.getName(), Message.class)).thenReturn(messageQueryResult);
 
@@ -76,14 +79,14 @@ public class JpaMessagesStorageTest {
 
 	@Test
 	public void addMessage() throws Exception {
-		storage.add(new Message("Новое сообщение"));
+		storage.add(new Message("Новое сообщение", testUser));
 		verify(em).persist(any(Message.class));
 	}
 
 	@Test
 	public void deleteMessageById() throws Exception {
 		Long id = 1L;
-		when(em.find(Message.class, id)).thenReturn(new Message(id, "Тестовое сообщение для удаления"));
+		when(em.find(Message.class, id)).thenReturn(new Message(id, "Тестовое сообщение для удаления", testUser));
 		Message message = storage.deleteById(id);
 		assertEquals(id, message.getId());
 		verify(em).remove(any(Message.class));
