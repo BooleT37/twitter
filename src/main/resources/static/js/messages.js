@@ -1,8 +1,8 @@
 function onLoad() {
     "use strict";
 
-    var addMessageUrl = "/messages/add";
-    var deleteMessageUrl = "/messages/delete";
+    var addMessageUrl = "/rest/messages/add";
+    var deleteMessageUrl = "/rest/messages/delete";
 
     var data = window.jsData;
     var messagesJquery = data.messages.reduce(function(previousElement, messageModel) {

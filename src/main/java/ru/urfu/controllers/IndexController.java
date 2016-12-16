@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -42,11 +43,10 @@ public class IndexController {
     @RequestMapping("/")
     public void index(HttpServletResponse response) throws IOException {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        if (auth.isAuthenticated())
+        if (auth.getAuthorities().contains(new SimpleGrantedAuthority("USER")))
             response.sendRedirect("/messages/" + auth.getName());
-        /*List<Message> messages = messagesStorage.getAll();
-		response.addHeader("Content-Type", "text/html; charset=utf-8");
-        return new ModelAndView("index", "messagesJson", mapper.writeValueAsString(messages));*/
+        else
+			response.sendRedirect("/login");
     }
 
 	@GetMapping("/login")
@@ -96,7 +96,6 @@ public class IndexController {
 
 	@RequestMapping("/messages/{username}")
 	public ModelAndView index(@PathVariable("username") String username, HttpServletResponse response) throws JsonProcessingException {
-		//Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		User user;
 		try {
 			user = usersStorage.getByLogin(username);

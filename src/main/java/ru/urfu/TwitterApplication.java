@@ -1,13 +1,10 @@
 package ru.urfu;
 
 import javafx.application.Application;
-import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.support.SpringBootServletInitializer;
-import org.springframework.context.annotation.Bean;
-import ru.urfu.entities.User;
 import ru.urfu.storage.users.UsersStorage;
 
 import javax.inject.Inject;
@@ -27,11 +24,11 @@ public class TwitterApplication extends SpringBootServletInitializer {
 		SpringApplication.run(TwitterApplication.class, args);
 	}
 
-	@Bean
+	/*@Bean
 	public CommandLineRunner runner() {
 		return args -> {
 			User user = new User("admin", "password");
             usersStorage.add(user);
 		};
-	}
+	}*/
 }
